@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
@@ -15,28 +16,33 @@ import com.example.mobiiliprojekti.model.ReminderItem;
 import java.io.Serializable;
 import java.util.Calendar;
 
+import static android.content.Intent.getIntent;
+
 public class ReminderBroadcastReceiver extends BroadcastReceiver {
+
+    private ReminderItem reminder_item = null;
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i("TEST", "onReceive: ");
+        Log.i("LOGIDEBUG", "onReceive: ");
 
-        // Get reminder extras from sent broadcast
-        String text = intent.getExtras().getString("TEXT");
-        ReminderItem reminder_item = (ReminderItem) intent.getSerializableExtra("REMINDER_ITEM");
+        // 1. Get reminderItem from intent
+        Bundle bundle = intent.getBundleExtra("bundle");
+        if (bundle != null) {
+            reminder_item = (ReminderItem)bundle.getSerializable("REMINDER_ITEM");
+        }
 
-        Log.i("LOGIDEBUG", "onReceive: ");// + reminder_item.getName());
-
-        // Recreate alarm for next day
+        // 2. Recreate alarm for next day
         ReminderAlarmManager alarmManager = new ReminderAlarmManager(context);
-        //alarmManager.createReminderAlarm(reminder_item);
+        alarmManager.createReminderAlarm(reminder_item);
 
+        // 3. Build and show notification
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
 
-        // Show notification
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, ReminderApplication.CHANNEL_ID)
                 .setSmallIcon(R.drawable.icon)
                 .setContentTitle("Reminder App")
-                .setContentText(text)
+                .setContentText(reminder_item.getName())
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setSound(alarmSound);
 
