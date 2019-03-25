@@ -10,14 +10,26 @@ import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
 
 import com.example.mobiiliprojekti.R;
+import com.example.mobiiliprojekti.model.ReminderItem;
+
+import java.io.Serializable;
+import java.util.Calendar;
 
 public class ReminderBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.i("TEST", "onReceive: ");
 
-        // Get reminder text from sent broadcast
+        // Get reminder extras from sent broadcast
         String text = intent.getExtras().getString("TEXT");
+        ReminderItem reminder_item = (ReminderItem) intent.getSerializableExtra("REMINDER_ITEM");
+
+        Log.i("LOGIDEBUG", "onReceive: ");// + reminder_item.getName());
+
+        // Recreate alarm for next day
+        ReminderAlarmManager alarmManager = new ReminderAlarmManager(context);
+        //alarmManager.createReminderAlarm(reminder_item);
+
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
 
         // Show notification

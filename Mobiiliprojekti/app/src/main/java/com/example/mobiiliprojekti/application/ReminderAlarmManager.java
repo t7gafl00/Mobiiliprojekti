@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Build;
+import android.util.Log;
 
 import com.example.mobiiliprojekti.model.ReminderItem;
 import com.example.mobiiliprojekti.model.ReminderModel;
@@ -39,26 +41,34 @@ public class ReminderAlarmManager {
         AlarmManager alarmMgr;
         PendingIntent alarmIntent;
 
+        Calendar alarm_Calendar = Calendar.getInstance();
+        alarm_Calendar.setTimeInMillis(System.currentTimeMillis());
+        alarm_Calendar.set(Calendar.HOUR_OF_DAY, reminder_hour);
+        alarm_Calendar.set(Calendar.MINUTE, reminder_minute);
+
         alarmMgr = (AlarmManager)this.context.getSystemService(ALARM_SERVICE);
         Intent intent = new Intent(this.context, ReminderBroadcastReceiver.class);
         intent.putExtra("TEXT", reminder_message);
+        intent.putExtra("REMINDER_ITEM", reminderItem);
         alarmIntent = PendingIntent.getBroadcast(this.context, id, intent, 0);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, reminder_hour);
-        calendar.set(Calendar.MINUTE, reminder_minute);
 
         // Check whether the time is earlier than current time. If so, set it to tomorrow.
         // Otherwise, all alarms for earlier time will fire
         Calendar now = Calendar.getInstance();
-        if(calendar.before(now)){
-            calendar.add(Calendar.DATE, 1);
+        if(alarm_Calendar.before(now)){
+            alarm_Calendar.add(Calendar.DATE, 1);
         }
 
         //alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
         // CONTINUE HERE
-        alarmMgr.setExactAndAllowWhileIdle(0, );
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarm_Calendar.getTimeInMillis(), alarmIntent);
+        }
+        else {
+            alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP, alarm_Calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alarmIntent);
+        }
+
+        Log.i("LOGIDEBUG", "createReminderAlarm: Alarm created");
     }
 
 /*

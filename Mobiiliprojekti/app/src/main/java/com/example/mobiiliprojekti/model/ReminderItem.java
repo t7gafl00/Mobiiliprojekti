@@ -1,6 +1,8 @@
 package com.example.mobiiliprojekti.model;
 
-public class ReminderItem {
+import java.io.Serializable;
+
+public class ReminderItem implements Serializable {
     String name = null;
     String time = null;
     int checked = 0;
