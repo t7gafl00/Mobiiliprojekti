@@ -27,7 +27,10 @@ public class ReminderAlarmManager {
 
     public void createReminderAlarm(ReminderItem reminderItem) {
         // 1. Prepare data (id, hour, minute, message)
-        int id = 1;
+
+        // Use reminderItem id from db (_id value) as our pendingIntent id
+        // Each pendingIntent needs its own unique id, otherwise the last one created overwrites the previous one
+        int pendingIntent_id = (int) reminderItem.getDb_id();
 
         // Parse time string to two int values
         String reminder_time = reminderItem.getTime();
@@ -50,7 +53,8 @@ public class ReminderAlarmManager {
             alarm_Calendar.add(DATE, 1);
         }
 
-        // 3. Create intent
+        // 3. Create intents
+        // Intent 1 (to phone)
         Intent intent = new Intent(this.context, ReminderBroadcastReceiver.class);
         // reminderItem is passed in order to recreate alarm for the next day in BroadcastReceiver
         // A bundle must be used to pass reminderItem object,
@@ -60,8 +64,13 @@ public class ReminderAlarmManager {
         bundle.putSerializable("REMINDER_ITEM", reminderItem);
         intent.putExtra("bundle", bundle);
 
+        /*
+        // Intent 2 (to watch)
+        Intent intent2 = new Intent(this.context, WatchBroadcastReceiver.class);
+        */
+
         PendingIntent alarmIntent;
-        alarmIntent = PendingIntent.getBroadcast(this.context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmIntent = PendingIntent.getBroadcast(this.context, pendingIntent_id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // 4. Set alarm
         AlarmManager alarmMgr;
@@ -75,7 +84,7 @@ public class ReminderAlarmManager {
             alarmMgr.set(AlarmManager.RTC_WAKEUP, alarm_Calendar.getTimeInMillis(), alarmIntent);
         }
 
-        Log.i("LOGIDEBUG", "createReminderAlarm: Alarm created");
+        Log.i("LOGIDEBUG", "createReminderAlarm: Alarm created, id: " + pendingIntent_id);
     }
 
 /*
@@ -93,12 +102,15 @@ public class ReminderAlarmManager {
 
     public void restoreAllReminderAlarms()
     {
+        Log.i("LOGIDEBUG", "restoreAllReminderAlarms: ");
         ReminderModel model = new ReminderModel((this.context));;
         Cursor cursor = model.getReminderItemsList(0);
 
         // Fetch all reminders from db and create corresponding alarms
         while (cursor.moveToNext()) {
+            Log.i("LOGIDEBUG", "cursor.moveToNext(): ");
 
+            int id =     (cursor.getInt(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem._ID)));
             String name = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_NAME)));
             String time = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_TIME)));
             int checked = cursor.getInt(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_CHECKED));

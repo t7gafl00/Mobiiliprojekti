@@ -16,8 +16,8 @@ public class ReminderModel {
         this.mDbHelper = new ReminderItemDbHelper(context);
     }
 
-    /* Insert ReminderItem into db */
-    public void addReminderItemToDb(ReminderItem addable) {
+    /* Insert ReminderItem into db and return _id column value */
+    public int addReminderItemToDb(ReminderItem addable) {
         // Gets the data repository in write mode
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
@@ -28,7 +28,9 @@ public class ReminderModel {
         values.put(ReminderItemContract.ReminderItem.COLUMN_NAME_CHECKED, addable.checked);
 
         // Insert the new row, returning the primary key value of the new row
-        long newRowId = db.insert(ReminderItemContract.ReminderItem.TABLE_NAME, null, values);
+        int newRowId = (int) db.insert(ReminderItemContract.ReminderItem.TABLE_NAME, null, values);
+
+        return newRowId;
     }
 
     /* Delete ReminderItem from db */

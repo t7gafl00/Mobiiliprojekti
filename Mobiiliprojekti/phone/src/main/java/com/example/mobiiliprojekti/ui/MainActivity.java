@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 
 import com.example.mobiiliprojekti.R;
+import com.example.mobiiliprojekti.application.ReminderAlarmManager;
 import com.example.mobiiliprojekti.model.ReminderItem;
 import com.example.mobiiliprojekti.model.ReminderItemArrayAdapter;
 import com.example.mobiiliprojekti.model.ReminderModel;
@@ -111,7 +112,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 refreshList(0);
                 return true;
             case R.id.category_2:
-                refreshList(0);
+                ReminderAlarmManager reminderAlarmManager = new ReminderAlarmManager(this.getApplicationContext());
+                reminderAlarmManager.restoreAllReminderAlarms();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -6,8 +6,16 @@ public class ReminderItem implements Serializable {
     String name = null;
     String time = null;
     int checked = 0;
+    int db_id = 0;
 
     public ReminderItem(String name, String time, int checked) {
+        this.name = name;
+        this.time = time;
+        this.checked = checked;
+    }
+
+    public ReminderItem(int db_id, String name, String time, int checked) {
+        this.db_id = db_id;
         this.name = name;
         this.time = time;
         this.checked = checked;
@@ -31,5 +39,13 @@ public class ReminderItem implements Serializable {
 
     public void setChecked(int checked) {
         this.checked = checked;
+    }
+
+    public long getDb_id() {
+        return db_id;
+    }
+
+    public void setDb_id(int db_id) {
+        this.db_id = db_id;
     }
 }

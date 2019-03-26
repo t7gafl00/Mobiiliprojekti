@@ -84,7 +84,8 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
 
         // Create object and insert data into db
         ReminderItem reminderItem = new ReminderItem(name, time, 0);
-        model.addReminderItemToDb(reminderItem);
+        int id_from_database = model.addReminderItemToDb(reminderItem);
+        reminderItem.setDb_id(id_from_database);
 
         // Create notification
         ReminderAlarmManager reminderAlarmManager = new ReminderAlarmManager(this);
