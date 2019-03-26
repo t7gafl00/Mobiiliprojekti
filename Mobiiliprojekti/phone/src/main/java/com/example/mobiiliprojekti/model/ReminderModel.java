@@ -55,7 +55,7 @@ public class ReminderModel {
         switch (filter_value) {
             case 0:
                 cursor = db.rawQuery(
-                        "SELECT name, time, checked FROM reminderItems ORDER BY strftime('%HH:%MM', time) ASC", new String[0]);
+                        "SELECT _id, name, time, checked FROM reminderItems ORDER BY strftime('%HH:%MM', time) ASC", new String[0]);
                 break;
 
             case 1:

@@ -53,8 +53,7 @@ public class ReminderAlarmManager {
             alarm_Calendar.add(DATE, 1);
         }
 
-        // 3. Create intents
-        // Intent 1 (to phone)
+        // 3. Create intent
         Intent intent = new Intent(this.context, ReminderBroadcastReceiver.class);
         // reminderItem is passed in order to recreate alarm for the next day in BroadcastReceiver
         // A bundle must be used to pass reminderItem object,
@@ -63,11 +62,6 @@ public class ReminderAlarmManager {
         Bundle bundle = new Bundle();
         bundle.putSerializable("REMINDER_ITEM", reminderItem);
         intent.putExtra("bundle", bundle);
-
-        /*
-        // Intent 2 (to watch)
-        Intent intent2 = new Intent(this.context, WatchBroadcastReceiver.class);
-        */
 
         PendingIntent alarmIntent;
         alarmIntent = PendingIntent.getBroadcast(this.context, pendingIntent_id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -110,12 +104,12 @@ public class ReminderAlarmManager {
         while (cursor.moveToNext()) {
             Log.i("LOGIDEBUG", "cursor.moveToNext(): ");
 
-            int id =     (cursor.getInt(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem._ID)));
+            int id = (int) cursor.getLong(cursor.getColumnIndex("_id"));
             String name = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_NAME)));
             String time = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_TIME)));
             int checked = cursor.getInt(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_CHECKED));
 
-            ReminderItem reminderItem = new ReminderItem(name, time, checked);
+            ReminderItem reminderItem = new ReminderItem(id, name, time, checked);
             createReminderAlarm(reminderItem);
         }
         cursor.close();
