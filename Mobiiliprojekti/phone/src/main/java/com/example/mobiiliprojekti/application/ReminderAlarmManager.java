@@ -18,7 +18,7 @@ import static android.content.Context.ALARM_SERVICE;
 import static java.util.Calendar.*;
 
 public class ReminderAlarmManager {
-    Context context;
+    private Context context;
 
     public ReminderAlarmManager(Context context)
     {
@@ -26,11 +26,12 @@ public class ReminderAlarmManager {
     }
 
     public void createReminderAlarm(ReminderItem reminderItem) {
-        // 1. Prepare data (id, hour, minute, message)
+        /* 1. Prepare data (id, hour, minute, message) */
 
         // Use reminderItem id from db (_id value) as our pendingIntent id
         // Each pendingIntent needs its own unique id, otherwise the last one created overwrites the previous one
-        int pendingIntent_id = (int) reminderItem.getDb_id();
+        int reminder_id = (int) reminderItem.getDb_id();
+        Log.i("LOGIDEBUG", "createReminderAlarm: first id=" + reminder_id);
 
         // Parse time string to two int values
         String reminder_time = reminderItem.getTime();
@@ -39,7 +40,7 @@ public class ReminderAlarmManager {
         int reminder_hour = Integer.valueOf(reminder_hour_String);
         int reminder_minute = Integer.valueOf(reminder_minute_String);
 
-        // 2. Create alarm calendar object
+        /* 2. Create alarm calendar object */
         Calendar alarm_Calendar = getInstance();
         alarm_Calendar.setTimeInMillis(System.currentTimeMillis());
         alarm_Calendar.set(HOUR_OF_DAY, reminder_hour);
@@ -47,14 +48,15 @@ public class ReminderAlarmManager {
 
         // Check whether the time is earlier than current time. If so, set it to tomorrow.
         // Otherwise, all alarms for earlier time will fire
-        Calendar now = getInstance();
-        now.add(MINUTE, 1);
-        if(alarm_Calendar.before(now)){
+        Calendar now_Calendar = getInstance();
+        now_Calendar.add(MINUTE, 1);
+        if(alarm_Calendar.before(now_Calendar)){
             alarm_Calendar.add(DATE, 1);
         }
 
-        // 3. Create intent
+        /* 3. Create intent */
         Intent intent = new Intent(this.context, ReminderBroadcastReceiver.class);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         // reminderItem is passed in order to recreate alarm for the next day in BroadcastReceiver
         // A bundle must be used to pass reminderItem object,
         // as it doesn't work on the BroadcastReceiver side if we try to pass it directly to intent
@@ -63,47 +65,40 @@ public class ReminderAlarmManager {
         bundle.putSerializable("REMINDER_ITEM", reminderItem);
         intent.putExtra("bundle", bundle);
 
-        PendingIntent alarmIntent;
-        alarmIntent = PendingIntent.getBroadcast(this.context, pendingIntent_id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.context, reminder_id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // 4. Set alarm
-        AlarmManager alarmMgr;
-        alarmMgr = (AlarmManager)this.context.getSystemService(ALARM_SERVICE);
+        /* 4. Set alarm */
+        AlarmManager alarmManager = (AlarmManager)this.context.getSystemService(ALARM_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmMgr.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarm_Calendar.getTimeInMillis(), alarmIntent);
+            alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, alarm_Calendar.getTimeInMillis(), pendingIntent);
         }
         else {
             // This one is for old versions (SDK < 19 ?), not tested.
-            alarmMgr.set(AlarmManager.RTC_WAKEUP, alarm_Calendar.getTimeInMillis(), alarmIntent);
+            alarmManager.set(AlarmManager.RTC_WAKEUP, alarm_Calendar.getTimeInMillis(), pendingIntent);
         }
 
-        Log.i("LOGIDEBUG", "createReminderAlarm: Alarm created, id: " + pendingIntent_id);
+        Log.i("LOGIDEBUG", "createReminderAlarm: Alarm created, id: " + reminder_id);
     }
 
-/*
-    private void cancelReminderNotificationAlarm(int id) {
-        Intent myIntent = new Intent(this, ReminderBroadcastReceiver.class);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                id, myIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        pendingIntent.cancel();
+    public void cancelReminderNotificationAlarm(int reminder_id) {
+        Log.i("LOGIDEBUG", "cancelReminderNotificationAlarm: Alarm canceled, id:" + reminder_id);
 
-        AlarmManager alarmManager;
+        Intent intent = new Intent(this.context, ReminderBroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this.context, reminder_id, intent, 0);
+        AlarmManager alarmManager = (AlarmManager)this.context.getSystemService(ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
     }
-*/
 
     public void restoreAllReminderAlarms()
     {
         Log.i("LOGIDEBUG", "restoreAllReminderAlarms: ");
-        ReminderModel model = new ReminderModel((this.context));;
-        Cursor cursor = model.getReminderItemsList(0);
+        ReminderModel reminderModel = new ReminderModel((this.context));;
+        Cursor cursor = reminderModel.getReminderItemsList(0);
 
-        // Fetch all reminders from db and create corresponding alarms
+        // Fetch all reminders from database and create corresponding alarms
         while (cursor.moveToNext()) {
-            Log.i("LOGIDEBUG", "cursor.moveToNext(): ");
-
             int id = (int) cursor.getLong(cursor.getColumnIndex("_id"));
             String name = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_NAME)));
             String time = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_TIME)));

@@ -3,7 +3,9 @@ package com.example.mobiiliprojekti.model;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.mobiiliprojekti.model.db.ReminderItemContract;
 import com.example.mobiiliprojekti.model.db.ReminderItemDbHelper;
@@ -56,6 +58,9 @@ public class ReminderModel {
             case 0:
                 cursor = db.rawQuery(
                         "SELECT _id, name, time, checked FROM reminderItems ORDER BY strftime('%HH:%MM', time) ASC", new String[0]);
+
+                // String dump = DatabaseUtils.dumpCursorToString(cursor);
+                // Log.i("LOGIDEBUG", "getId: dumpCursorToString: " + dump);
                 break;
 
             case 1:

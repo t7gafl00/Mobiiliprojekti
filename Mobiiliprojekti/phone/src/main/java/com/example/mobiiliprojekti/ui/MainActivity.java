@@ -53,6 +53,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             public void onClick(DialogInterface dialog, int id) {
                                 // User confirmed action
                                 reminderItem = (ReminderItem) listView.getItemAtPosition(position);
+                                //int reminder_id = model.getId(reminderItem);
+
+                                //ReminderAlarmManager reminderAlarmManager = new ReminderAlarmManager(this.getApplicationContext());
+                                ReminderAlarmManager reminderAlarmManager = new ReminderAlarmManager(getApplicationContext());
+                                reminderAlarmManager.cancelReminderNotificationAlarm((int) reminderItem.getDb_id());
+
                                 model.deleteReminderItemFromDb(reminderItem);
                                 refreshList(0);
                             }
@@ -110,10 +116,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             // Sort according to date
             case R.id.category_1:
                 refreshList(0);
+
                 return true;
             case R.id.category_2:
-                ReminderAlarmManager reminderAlarmManager = new ReminderAlarmManager(this.getApplicationContext());
-                reminderAlarmManager.restoreAllReminderAlarms();
+                ReminderAlarmManager reminderAlarmManager2 = new ReminderAlarmManager(this.getApplicationContext());
+                reminderAlarmManager2.restoreAllReminderAlarms();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -148,12 +155,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Fetch data from items in db and add them to ArrayList
         while (cursor.moveToNext()) {
-
+            int id = (int) cursor.getLong(cursor.getColumnIndex("_id"));
             String name = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_NAME)));
             String time = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_TIME)));
             int checked = cursor.getInt(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_CHECKED));
 
-            ReminderItem reminderItem = new ReminderItem(name, time, checked);
+            ReminderItem reminderItem = new ReminderItem(id, name, time, checked);
             reminderItems_ArrayList.add(reminderItem);
         }
         cursor.close();
