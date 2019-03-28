@@ -100,11 +100,12 @@ public class ReminderAlarmManager {
         // Fetch all reminders from database and create corresponding alarms
         while (cursor.moveToNext()) {
             int id = (int) cursor.getLong(cursor.getColumnIndex("_id"));
-            String name = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_NAME)));
             String time = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_TIME)));
+            String name = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_NAME)));
+            String category = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_CATEGORY)));
             int checked = cursor.getInt(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_CHECKED));
 
-            ReminderItem reminderItem = new ReminderItem(id, name, time, checked);
+            ReminderItem reminderItem = new ReminderItem(id, time, name, category, checked);
             createReminderAlarm(reminderItem);
         }
         cursor.close();

@@ -82,8 +82,13 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
         // Get name of reminder from EditText
         String name = String.valueOf(reminderName_EditText.getText());
 
+        /* TODO: get item category from some widget
+        ** possibly using icons for selection */
+        // Get category
+        String category = "category";
+
         // Create object and insert data into db
-        ReminderItem reminderItem = new ReminderItem(name, time, 0);
+        ReminderItem reminderItem = new ReminderItem(time, name, category, 0);
         int id_from_database = model.addReminderItemToDb(reminderItem);
         reminderItem.setDb_id(id_from_database);
 

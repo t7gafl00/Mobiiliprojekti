@@ -156,11 +156,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Fetch data from items in db and add them to ArrayList
         while (cursor.moveToNext()) {
             int id = (int) cursor.getLong(cursor.getColumnIndex("_id"));
-            String name = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_NAME)));
             String time = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_TIME)));
+            String name = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_NAME)));
+            String category = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_CATEGORY)));
             int checked = cursor.getInt(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_CHECKED));
 
-            ReminderItem reminderItem = new ReminderItem(id, name, time, checked);
+            ReminderItem reminderItem = new ReminderItem(id, time, name, category, checked);
             reminderItems_ArrayList.add(reminderItem);
         }
         cursor.close();

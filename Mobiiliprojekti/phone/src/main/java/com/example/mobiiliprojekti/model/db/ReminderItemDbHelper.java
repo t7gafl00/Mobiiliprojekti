@@ -9,15 +9,16 @@ public class ReminderItemDbHelper extends SQLiteOpenHelper {
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + ReminderItemContract.ReminderItem.TABLE_NAME + " (" +
                     ReminderItemContract.ReminderItem._ID + " INTEGER PRIMARY KEY," +
-                    ReminderItemContract.ReminderItem.COLUMN_NAME_NAME + " TEXT," +
                     ReminderItemContract.ReminderItem.COLUMN_NAME_TIME + " TEXT," +
+                    ReminderItemContract.ReminderItem.COLUMN_NAME_NAME + " TEXT," +
+                    ReminderItemContract.ReminderItem.COLUMN_NAME_CATEGORY+ " TEXT," +
                     ReminderItemContract.ReminderItem.COLUMN_NAME_CHECKED + " INTEGER )" ;
 
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + ReminderItemContract.ReminderItem.TABLE_NAME;
 
     // If you change the database schema, you must increment the database version.
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "ReminderItemDatabase.db";
 
     public ReminderItemDbHelper(Context context) {
