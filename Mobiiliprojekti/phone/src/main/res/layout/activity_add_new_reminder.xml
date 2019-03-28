@@ -23,6 +23,17 @@
     </TimePicker>
 
     <TextView
+        android:id="@+id/addNewReminder_category_TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Category" />
+
+    <Spinner
+        android:id="@+id/category_Spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
         android:id="@+id/addNewReminder_name_TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

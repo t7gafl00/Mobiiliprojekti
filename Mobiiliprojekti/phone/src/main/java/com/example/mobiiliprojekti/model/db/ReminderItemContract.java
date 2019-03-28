@@ -11,8 +11,8 @@ public class ReminderItemContract {
     public static class ReminderItem implements BaseColumns {
         public static final String TABLE_NAME = "reminderItems";
         public static final String COLUMN_NAME_TIME = "time";
-        public static final String COLUMN_NAME_NAME = "name";
         public static final String COLUMN_NAME_CATEGORY = "category";
+        public static final String COLUMN_NAME_NAME = "name";
         public static final String COLUMN_NAME_CHECKED = "checked";
     }
 }

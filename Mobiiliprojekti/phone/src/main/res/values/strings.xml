@@ -5,4 +5,10 @@
     <string name="channel_name">Lab_6_1</string>
     <string name="channel_description">Lab_6_1 Channel Description</string>
     <string name="show_notification_button_Text">Show notification</string>
+
+    <string-array name="categories_array">
+        <item>Drink</item>
+        <item>Eat</item>
+        <item>Toilet</item>
+    </string-array>
 </resources>

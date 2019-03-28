@@ -157,8 +157,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         while (cursor.moveToNext()) {
             int id = (int) cursor.getLong(cursor.getColumnIndex("_id"));
             String time = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_TIME)));
-            String name = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_NAME)));
             String category = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_CATEGORY)));
+            String name = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_NAME)));
             int checked = cursor.getInt(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_CHECKED));
 
             ReminderItem reminderItem = new ReminderItem(id, time, name, category, checked);

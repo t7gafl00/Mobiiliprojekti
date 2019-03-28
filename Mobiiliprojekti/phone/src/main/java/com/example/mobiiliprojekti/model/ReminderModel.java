@@ -26,8 +26,8 @@ public class ReminderModel {
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(ReminderItemContract.ReminderItem.COLUMN_NAME_TIME, addable.time);
-        values.put(ReminderItemContract.ReminderItem.COLUMN_NAME_NAME, addable.name);
         values.put(ReminderItemContract.ReminderItem.COLUMN_NAME_CATEGORY, addable.category);
+        values.put(ReminderItemContract.ReminderItem.COLUMN_NAME_NAME, addable.name);
         values.put(ReminderItemContract.ReminderItem.COLUMN_NAME_CHECKED, addable.checked);
 
         // Insert the new row, returning the primary key value of the new row
@@ -58,7 +58,7 @@ public class ReminderModel {
         switch (filter_value) {
             case 0:
                 cursor = db.rawQuery(
-                        "SELECT _id, time, name, category, checked FROM reminderItems ORDER BY strftime('%HH:%MM', time) ASC", new String[0]);
+                        "SELECT _id, time, category, name, checked FROM reminderItems ORDER BY strftime('%HH:%MM', time) ASC", new String[0]);
 
                 // String dump = DatabaseUtils.dumpCursorToString(cursor);
                 // Log.i("LOGIDEBUG", "getId: dumpCursorToString: " + dump);

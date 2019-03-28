@@ -5,8 +5,8 @@ import java.io.Serializable;
 public class ReminderItem implements Serializable {
     int db_id = 0;
     String time = null;
-    String name = null;
     String category = null;
+    String name = null;
     int checked = 0;
 
     public ReminderItem(String time, String name, String category, int checked) {
@@ -36,6 +36,10 @@ public class ReminderItem implements Serializable {
 
     public void setTime(String time) { this.time = time; }
 
+    public String getCategory() { return category; }
+
+    public void setCategory(String category) { this.category = category; }
+
     public String getName() {
         return name;
     }
@@ -43,10 +47,6 @@ public class ReminderItem implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getCategory() { return category; }
-
-    public void setCategory(String category) { this.category = category; }
 
     public int getChecked() {
         return checked;

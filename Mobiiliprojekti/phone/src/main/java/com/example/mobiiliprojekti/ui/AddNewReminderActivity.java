@@ -1,10 +1,15 @@
 package com.example.mobiiliprojekti.ui;
 
+import android.database.Cursor;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -13,15 +18,18 @@ import com.example.mobiiliprojekti.application.ReminderAlarmManager;
 import com.example.mobiiliprojekti.model.ReminderItem;
 import com.example.mobiiliprojekti.model.ReminderModel;
 
-public class AddNewReminderActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddNewReminderActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     // Model to manipulate data in database
     private ReminderModel model = null;
 
     // Items from AddNewReminderActivity
     private TimePicker reminderTime_TimePicker = null;
+    private Spinner category_Spinner;
     private TextView reminderName_EditText = null;
     private Button done_Button = null;
+
+    private String category_from_Spinner = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +39,24 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
 
         model = new ReminderModel((this));
 
+        /* Set up TimePicker */
         reminderName_EditText = findViewById(R.id.addNewReminder_name_EditText);
         reminderTime_TimePicker = findViewById(R.id.addNewReminder_time_TimePicker);
         reminderTime_TimePicker.setIs24HourView(true);
 
+        /* Set up Spinner containing categories */
+        category_Spinner = findViewById(R.id.category_Spinner);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.categories_array, android.R.layout.simple_spinner_item);
+        // Specify the layout to use when the list of choices appears
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        category_Spinner.setAdapter(adapter);
+
+        category_Spinner.setOnItemSelectedListener(this);
+
+        /* Set up done Button */
         done_Button = findViewById(R.id.addNewReminder_done_Button);
         done_Button.setOnClickListener(this);
     }
@@ -44,14 +66,14 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
 
         int viewId = v.getId();
 
-        // Handle press on "DONE" button
+        /* Handle press on "DONE" button */
         if (viewId == R.id.addNewReminder_done_Button) {
             saveReminder();
             this.finish();
         }
     }
 
-    /* this function inserts an object built with data from AddNewReminderActivity to local database */
+    /* This function inserts an object built with data from AddNewReminderActivity to local database */
     private void saveReminder() {
 
         // Get time from TimePicker
@@ -60,8 +82,7 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             hour = reminderTime_TimePicker.getHour();
             minute = reminderTime_TimePicker.getMinute();
-        }
-        else {
+        } else {
             hour = reminderTime_TimePicker.getCurrentHour();
             minute = reminderTime_TimePicker.getCurrentMinute();
         }
@@ -83,9 +104,9 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
         String name = String.valueOf(reminderName_EditText.getText());
 
         /* TODO: get item category from some widget
-        ** possibly using icons for selection */
+         ** possibly using icons for selection */
         // Get category
-        String category = "category";
+        String category = category_from_Spinner;
 
         // Create object and insert data into db
         ReminderItem reminderItem = new ReminderItem(time, name, category, 0);
@@ -95,5 +116,19 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
         // Create notification
         ReminderAlarmManager reminderAlarmManager = new ReminderAlarmManager(this);
         reminderAlarmManager.createReminderAlarm(reminderItem);
+    }
+
+    /* Function executed when Spinner containing categories is used */
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        // An item was selected. You can retrieve the selected item using
+
+        category_from_Spinner = (String) parent.getItemAtPosition(position);
+        Log.i("LOGIDEBUG", "onItemSelected: " + category_from_Spinner);
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
     }
 }
