@@ -34,6 +34,7 @@
                 <!-- <category android:name="android.intent.category.HOME" /> -->
             </intent-filter>
         </receiver>
+        <service android:name=".application.TextToSpeechManager"/>
     </application>
 
-</manifest>
+    </manifest>

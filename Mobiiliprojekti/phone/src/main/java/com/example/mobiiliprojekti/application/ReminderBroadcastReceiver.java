@@ -3,20 +3,11 @@ package com.example.mobiiliprojekti.application;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
-import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.util.Log;
-
-import com.example.mobiiliprojekti.R;
 import com.example.mobiiliprojekti.model.ReminderItem;
 
-import java.io.Serializable;
-import java.util.Calendar;
-
-import static android.content.Intent.getIntent;
 
 public class ReminderBroadcastReceiver extends BroadcastReceiver {
 
@@ -36,19 +27,19 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
         ReminderAlarmManager alarmManager = new ReminderAlarmManager(context);
         alarmManager.createReminderAlarm(reminder_item);
 
-        // 3. Build and show notification
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        // 3. Define intent in order to start a Service containing
+        // the text-to-speech feature and notification
+        Intent textToSpeechIntent = new Intent(context, TextToSpeechManager.class)
+                .putExtra("MESSAGE", reminder_item.getName());
 
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, ReminderApplication.CHANNEL_ID)
-                .setSmallIcon(R.drawable.icon)
-                .setContentTitle("Reminder App")
-                .setContentText(reminder_item.getName())
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setSound(alarmSound);
-
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
-
-        // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(234, mBuilder.build());
+        // 4. Start the service with different methods depending on the version
+        // of the device
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(textToSpeechIntent);
+        } else{
+            context.startService(textToSpeechIntent);
+        }
     }
 }
+
+
