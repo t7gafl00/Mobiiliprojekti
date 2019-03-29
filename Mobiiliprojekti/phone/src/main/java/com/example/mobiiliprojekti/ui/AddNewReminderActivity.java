@@ -103,9 +103,7 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
         // Get name of reminder from EditText
         String name = String.valueOf(reminderName_EditText.getText());
 
-        /* TODO: get item category from some widget
-         ** possibly using icons for selection */
-        // Get category
+        // Get category from Spinner
         String category = category_from_Spinner;
 
         // Create object and insert data into db
@@ -122,7 +120,6 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // An item was selected. You can retrieve the selected item using
-
         category_from_Spinner = (String) parent.getItemAtPosition(position);
         Log.i("LOGIDEBUG", "onItemSelected: " + category_from_Spinner);
     }

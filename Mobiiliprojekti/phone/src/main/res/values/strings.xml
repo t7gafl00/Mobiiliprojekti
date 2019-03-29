@@ -9,6 +9,10 @@
     <string-array name="categories_array">
         <item>Drink</item>
         <item>Eat</item>
+        <item>Medication</item>
+        <item>Shower</item>
+        <item>Social</item>
         <item>Toilet</item>
+        <item>Warning</item>
     </string-array>
 </resources>
