@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -31,12 +33,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ReminderModel model = null;
     ReminderItem reminderItem = null;
 
+    protected Handler myHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        //Tarvitaan
+        myHandler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                Bundle stuff = msg.getData();
+                //messageText(stuff.getString("messageText"));
+                return true;
+            }
+        });
 
         model = new ReminderModel((this));
         listView = findViewById(R.id.main_list_view);

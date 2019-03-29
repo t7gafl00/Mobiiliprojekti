@@ -39,6 +39,8 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
         } else{
             context.startService(textToSpeechIntent);
         }
+        // 5. Start a message service
+
     }
 }
 
