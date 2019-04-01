@@ -5,8 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Message;
 import android.util.Log;
 import com.example.mobiiliprojekti.model.ReminderItem;
+import com.example.mobiiliprojekti.ui.MainActivity;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.android.gms.wearable.Wearable;
+
+
+
+import java.util.List;
+import java.util.Random;
 
 
 public class ReminderBroadcastReceiver extends BroadcastReceiver {
@@ -40,7 +51,47 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
             context.startService(textToSpeechIntent);
         }
         // 5. Start a message service
+        int random = new Random().nextInt(8999) + 1000;
+        String message = Integer.toString(random);
+        new NewThread("/my_path", message).start();
+    }
+    class NewThread extends Thread {
+        String path;
+        String message;
 
+        NewThread(String p, String m) {
+            path = p;
+            message = m;
+        }
+
+        public void run() {
+
+            Task<List<Node>> wearableList =
+                    Wearable.getNodeClient(getApplicationContext()).getConnectedNodes();
+            try {
+                List<Node> nodes = Tasks.await(wearableList);
+                for (Node node : nodes) {
+                    Task<Integer> sendMessageTask =
+                            Wearable.getMessageClient(MainActivity.this).sendMessage(node.getId(), path, message.getBytes());
+                    try {
+                        Integer result = Tasks.await(sendMessageTask);
+                        sendmessage("I just sent the wearable a message ");
+
+                    } catch (Exception exception) {
+
+                    }
+                }
+            } catch (Exception exception) {
+
+            }
+        }
+        public void sendmessage(String messageText) {
+            Bundle bundle = new Bundle();
+            bundle.putString("messageText", messageText);
+            Message msg = myHandler.obtainMessage();
+            msg.setData(bundle);
+            myHandler.sendMessage(msg);
+        }
     }
 }
 
