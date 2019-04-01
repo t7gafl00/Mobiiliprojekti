@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.mobiiliprojekti"
-        minSdkVersion 23
+        minSdkVersion 26
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -29,4 +29,5 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.android.support:wear:28.0.0'
     compileOnly 'com.google.android.wearable:wearable:2.4.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }
