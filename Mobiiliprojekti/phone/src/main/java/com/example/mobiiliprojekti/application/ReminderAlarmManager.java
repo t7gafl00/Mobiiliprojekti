@@ -90,7 +90,7 @@ public class ReminderAlarmManager {
         AlarmManager alarmManager = (AlarmManager)this.context.getSystemService(ALARM_SERVICE);
         alarmManager.cancel(pendingIntent);
     }
-
+fewuhfewqfuewöföwqf
     public void restoreAllReminderAlarms()
     {
         Log.i("LOGIDEBUG", "restoreAllReminderAlarms: ");
