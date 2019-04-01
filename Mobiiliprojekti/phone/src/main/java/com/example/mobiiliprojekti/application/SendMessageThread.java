@@ -48,10 +48,11 @@ public class SendMessageThread extends Thread {
         String messageAction = reminderItem.getCategory();
         //String that is sent to clock application
         String messageString = messageAction + " * " + messageText;
-
+/*
         bundle.putString("messageText", messageString);
         Message msg = myHandler.obtainMessage();
         msg.setData(bundle);
         myHandler.sendMessage(msg);
+        */
     }
 }
