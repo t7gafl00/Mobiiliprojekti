@@ -50,8 +50,8 @@ public class SendMessageThread extends Thread {
         String messageString = messageAction + " * " + messageText;
 
         bundle.putString("messageText", messageString);
-        //Message msg = myHandler.obtainMessage();
-       // msg.setData(bundle);
-        //myHandler.sendMessage(msg);
+        Message msg = myHandler.obtainMessage();
+        msg.setData(bundle);
+        myHandler.sendMessage(msg);
     }
 }
