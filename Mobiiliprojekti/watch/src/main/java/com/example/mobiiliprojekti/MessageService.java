@@ -15,10 +15,11 @@ public class MessageService extends WearableListenerService {
         if (messageEvent.getPath().equals("/my_path")) {
             try{
                 final String message = new String(messageEvent.getData());
+                String[] array = message.split(";");
                 Log.d("kimmo", "trying to launch");
                 PackageManager pm = this.getPackageManager();
                 Intent intent = pm.getLaunchIntentForPackage(this.getPackageName());
-                intent.putExtra("message", message);
+                intent.putExtra("message", array);
                 this.startActivity(intent);
             }catch(Exception e){
                 Log.d("kimmo", e.toString());
