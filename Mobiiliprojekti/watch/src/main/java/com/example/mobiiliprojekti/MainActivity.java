@@ -1,8 +1,11 @@
 package com.example.mobiiliprojekti;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.TextViewCompat;
 import android.support.wearable.activity.WearableActivity;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -16,6 +19,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
+import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -34,6 +39,7 @@ public class MainActivity extends WearableActivity {
     String textPlaceholder;
     String imagePlaceholder;
     LinearLayout textLayout;
+    Intent intent;
 
 
     Vibrator myVibrator;
@@ -52,17 +58,19 @@ public class MainActivity extends WearableActivity {
         setContentView(R.layout.activity_main);
         Log.i(TAG, "onCreate");
 
+
+
         //startService();
 
 
 /*
  *******************************************************************
- Initializing layout, notification text, image and vibrationservice
+ Initializing layout, notification text, image and vibratorservice
  *******************************************************************
  */
         myLayout = findViewById(R.id.boxInsetLayout);
         myNotificationText = new TextView(MainActivity.this);
-        myNotificationText.setTextSize(70);
+        myNotificationText.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
         myNotificationText.setTypeface(Typeface.DEFAULT_BOLD);
         myNotificationText.setTextColor(ContextCompat.getColor(this, R.color.white));
 
@@ -91,6 +99,18 @@ public class MainActivity extends WearableActivity {
         Log.i(TAG, "onStart");
         timer = new Timer();
         repeatCounter = 0;
+
+        intent = getIntent();
+        try
+        {
+            textPlaceholder = intent.getSerializableExtra("message").toString();
+            textPlaceholder = parseMessage(textPlaceholder);
+        }
+        catch(Exception e)
+        {
+            textPlaceholder = "Error fetching message;7";
+            textPlaceholder = parseMessage(textPlaceholder);
+        }
     }
 
     @Override
@@ -110,9 +130,6 @@ public class MainActivity extends WearableActivity {
             @Override
             public void run()
             {
-                //textPlaceholder = getText(messageFromPhone);
-                //imageCode = getInt(intFromPhone);
-                imageCode = 4;
                 imagePlaceholder = iconChoice(imageCode);
                 imageResource = getResources().getIdentifier(imagePlaceholder, "drawable", getPackageName());
 
@@ -161,12 +178,12 @@ Cancelling timer, just incase
         Log.i(TAG, "onDestroy");
     }
 
-/*
-***************************************************************************************************
-refreshScreen function takes flip as argument to determine whether to show text or show image on the
-screen. It is declared to run on ui thread, as it gets called from another thread.
-***************************************************************************************************
-*/
+    /*
+    ***************************************************************************************************
+    refreshScreen function takes flip as argument to determine whether to show text or show image on the
+    screen. It is declared to run on ui thread, as it gets called from another thread.
+    ***************************************************************************************************
+    */
     public void refreshScreen(final int imageResource, final boolean choice)
     {
         runOnUiThread(new Runnable()
@@ -179,8 +196,7 @@ screen. It is declared to run on ui thread, as it gets called from another threa
                 {
                     myLayout.removeAllViews();
                     myLayout.addView(textLayout, textLayout.getLayoutParams());
-                    //myNotificationText.setText(textPlaceholder);
-                    myNotificationText.setText("EAT");
+                    myNotificationText.setText(textPlaceholder);
                     //myLayout.addView(myNotificationText);
                     setContentView(myLayout);
 
@@ -196,11 +212,11 @@ screen. It is declared to run on ui thread, as it gets called from another threa
         });
     }
 
-/*
-*****************************************************************************************************
-Function to send out image resource ID for fetching the right icon to use in alarm.
-*******************************************************************************************************
-*/
+    /*
+    *****************************************************************************************************
+    Function to send out image resource ID for fetching the right icon to use in alarm.
+    *******************************************************************************************************
+    */
     public String iconChoice(int code)
     {
         String imageName = "";
@@ -209,39 +225,56 @@ Function to send out image resource ID for fetching the right icon to use in ala
 
             case 1:
                 imageName = "icons_colors_01";
-            break;
+                break;
 
             case 2:
                 imageName = "icons_colors_02";
-            break;
+                break;
 
             case 3:
                 imageName = "icons_colors_03";
-            break;
+                break;
 
             case 4:
                 imageName = "icons_colors_04";
-            break;
+                break;
 
             case 5:
                 imageName = "icons_colors_05";
-            break;
+                break;
 
             case 6:
                 imageName = "icons_colors_06";
-            break;
+                break;
 
             case 7:
                 imageName = "icons_colors_07";
-            break;
+                break;
         }
 
         return imageName;
     }
 
 
+    public String parseMessage(String message)
+    {
+        String parsedMessage = "";
+        parsedMessage = message.replaceAll(" ", "\n");
+        String [] splitMessage = parsedMessage.split(";");
+        parsedMessage = splitMessage[0];
+        String codeString = splitMessage[1];
+        imageCode = Integer.parseInt(codeString);
 
-    // public void startService() {
-    //startService(new Intent(getBaseContext(), MyService.class));
-    //  }
+/*        char[] chars = message.toCharArray();
+
+        for(int i = 0; i < message.length(); i++)
+        {
+            if(chars[i] == ' ')
+            {
+                chars[i] = System.lineSeparator();
+            }
+        }*/
+
+        return parsedMessage;
+    }
 }
