@@ -51,19 +51,6 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
         } else{
             context.startService(textToSpeechIntent);
         }
-        /*
-        int random = new Random().nextInt(8999) + 1000;
-        String message = Integer.toString(random);
-        new MainActivity().new NewThread("/my_path", message).start();
-        */
-
-        int random = new Random().nextInt(8999) + 1000;
-        String message = Integer.toString(random);
-
-        // 5. Start a message service
-        //int random = new Random().nextInt(8999) + 1000;
-
-
         class NewThread extends Thread {
             String path;
             String message;
