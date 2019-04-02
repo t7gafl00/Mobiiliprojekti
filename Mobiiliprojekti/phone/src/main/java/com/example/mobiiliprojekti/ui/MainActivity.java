@@ -1,6 +1,7 @@
 package com.example.mobiiliprojekti.ui;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 
@@ -22,8 +24,14 @@ import com.example.mobiiliprojekti.model.ReminderItem;
 import com.example.mobiiliprojekti.model.ReminderItemArrayAdapter;
 import com.example.mobiiliprojekti.model.ReminderModel;
 import com.example.mobiiliprojekti.model.db.ReminderItemContract;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.android.gms.wearable.Node;
+import com.google.android.gms.wearable.Wearable;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -33,12 +41,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ReminderModel model = null;
     ReminderItem reminderItem = null;
 
+    Context context;
+
     protected Handler myHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         //Tarvitaan
@@ -50,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return true;
             }
         });
+
 
         model = new ReminderModel((this));
         listView = findViewById(R.id.main_list_view);
@@ -86,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return false;
             }
         });
+
     }
 
     public void onCheckboxClicked(View view) {
