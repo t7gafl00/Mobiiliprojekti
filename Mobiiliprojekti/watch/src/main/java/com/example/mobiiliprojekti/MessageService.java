@@ -1,9 +1,8 @@
 package com.example.mobiiliprojekti;
 
-import android.app.Service;
 import android.content.Intent;
-import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
+import android.content.pm.PackageManager;
+import android.util.Log;
 
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.WearableListenerService;
@@ -14,13 +13,16 @@ public class MessageService extends WearableListenerService {
     public void onMessageReceived(MessageEvent messageEvent) {
 
         if (messageEvent.getPath().equals("/my_path")) {
-            final String message = new String(messageEvent.getData());
-
-            //Broadcast the received data layer messages//
-            Intent messageIntent = new Intent();
-            messageIntent.setAction(Intent.ACTION_SEND);
-            messageIntent.putExtra("message", message);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(messageIntent);
+            try{
+                final String message = new String(messageEvent.getData());
+                Log.d("kimmo", "trying to launch");
+                PackageManager pm = this.getPackageManager();
+                Intent intent = pm.getLaunchIntentForPackage(this.getPackageName());
+                intent.putExtra("message", message);
+                this.startActivity(intent);
+            }catch(Exception e){
+                Log.d("kimmo", e.toString());
+            }
         }
         else {
             super.onMessageReceived(messageEvent);
