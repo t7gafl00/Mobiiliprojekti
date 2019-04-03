@@ -34,7 +34,8 @@ public class MainActivity extends WearableActivity {
     BoxInsetLayout myLayout;
     TextView myNotificationText;
     ImageView myImage;
-    int imageCode;
+    //int imageCode;
+    String codeString;
     int imageResource;
     String textPlaceholder;
     String imagePlaceholder;
@@ -108,7 +109,7 @@ public class MainActivity extends WearableActivity {
         }
         catch(Exception e)
         {
-            textPlaceholder = "Error fetching message;7";
+            textPlaceholder = "Error fetching message;Warning";
             textPlaceholder = parseMessage(textPlaceholder);
         }
     }
@@ -130,7 +131,7 @@ public class MainActivity extends WearableActivity {
             @Override
             public void run()
             {
-                imagePlaceholder = iconChoice(imageCode);
+                imagePlaceholder = iconChoice(codeString);
                 imageResource = getResources().getIdentifier(imagePlaceholder, "drawable", getPackageName());
 
                 Log.i(TAG, "Entered run loop");
@@ -169,7 +170,6 @@ Cancelling timer, just incase
 *************************************
 */
         timer.cancel();
-        done = true;
     }
 
     @Override
@@ -212,42 +212,42 @@ Cancelling timer, just incase
         });
     }
 
-    /*
-    *****************************************************************************************************
-    Function to send out image resource ID for fetching the right icon to use in alarm.
-    *******************************************************************************************************
-    */
-    public String iconChoice(int code)
+/*
+*****************************************************************************************************
+Function to send out image resource ID for fetching the right icon to use in alarm.
+*******************************************************************************************************
+*/
+    public String iconChoice(String code)
     {
         String imageName = "";
         switch(code)
         {
 
-            case 1:
+            case "Medication":
                 imageName = "icons_colors_01";
                 break;
 
-            case 2:
+            case "Eat":
                 imageName = "icons_colors_02";
                 break;
 
-            case 3:
+            case "Toilet":
                 imageName = "icons_colors_03";
                 break;
 
-            case 4:
+            case "Shower":
                 imageName = "icons_colors_04";
                 break;
 
-            case 5:
+            case "Drink":
                 imageName = "icons_colors_05";
                 break;
 
-            case 6:
+            case "Social":
                 imageName = "icons_colors_06";
                 break;
 
-            case 7:
+            case "Warning":
                 imageName = "icons_colors_07";
                 break;
         }
@@ -255,25 +255,23 @@ Cancelling timer, just incase
         return imageName;
     }
 
-
+/*
+*****************************************************************************************************
+Function to parse message brought from MessageService. Assuming the message comes as one string, with
+the message first on it, code after, separated by ';'. So the function first replaces all the spaces
+with newlines to make the text appear nicely on the watch; then it splits the message to two variables;
+after that the variables are set and parsed into their own variables. Function returns the message part,
+while the code gets set inside the function to the class variable imageCode.
+*******************************************************************************************************
+*/
     public String parseMessage(String message)
     {
         String parsedMessage = "";
         parsedMessage = message.replaceAll(" ", "\n");
         String [] splitMessage = parsedMessage.split(";");
         parsedMessage = splitMessage[0];
-        String codeString = splitMessage[1];
-        imageCode = Integer.parseInt(codeString);
-
-/*        char[] chars = message.toCharArray();
-
-        for(int i = 0; i < message.length(); i++)
-        {
-            if(chars[i] == ' ')
-            {
-                chars[i] = System.lineSeparator();
-            }
-        }*/
+        codeString = splitMessage[1];
+        //imageCode = Integer.parseInt(codeString);
 
         return parsedMessage;
     }
