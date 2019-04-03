@@ -17,7 +17,7 @@ public class MessageService extends WearableListenerService {
                 final String message = new String(messageEvent.getData());
                 PackageManager pm = this.getPackageManager();
                 Intent intent = pm.getLaunchIntentForPackage(this.getPackageName());
-                intent.putExtra("message", array);
+                intent.putExtra("message", message);
                 this.startActivity(intent);
             }catch(Exception e){
                 //Process error here
