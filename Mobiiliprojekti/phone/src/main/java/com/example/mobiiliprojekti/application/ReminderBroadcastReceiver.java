@@ -71,7 +71,7 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
                                 Wearable.getMessageClient(context).sendMessage(node.getId(), path, message.getBytes());
                         try {
                             Integer result = Tasks.await(sendMessageTask);
-                            sendmessage("I just sent the wearable a message ");
+                            sendmessage(message);
 
                         } catch (Exception exception) {
 
@@ -86,11 +86,13 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
                 Bundle bundle = new Bundle();
                 bundle.putString("messageText", messageText);
                 Message msg = myHandler.obtainMessage();
+                Log.d("testi", msg.toString());
                 msg.setData(bundle);
                 myHandler.sendMessage(msg);
+                Log.d("testi", msg.toString());
             }
         }
-        new NewThread("/my_path", reminder_item.getCategory() + ";"+ reminder_item.getName()).start();
+        new NewThread("/my_path", reminder_item.getName() + ";" + reminder_item.getCategory()).start();
     }
 }
 
