@@ -23,10 +23,56 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
 
     private ReminderItem reminder_item = null;
     protected Handler myHandler;
+    private Context context;
+
+    class NewThread extends Thread {
+        String path;
+        String message;
+
+        public NewThread(String p, String m) {
+            path = p;
+            message = m;
+        }
+
+        public void run() {
+
+            Task<List<Node>> wearableList =
+                    Wearable.getNodeClient(context).getConnectedNodes();
+            try {
+                List<Node> nodes = Tasks.await(wearableList);
+                for (Node node : nodes) {
+                    Task<Integer> sendMessageTask =
+                            Wearable.getMessageClient(context).sendMessage(node.getId(), path, message.getBytes());
+                    try {
+                        Integer result = Tasks.await(sendMessageTask);
+                        sendmessage(message);
+
+                    } catch (Exception exception) {
+
+                    }
+                }
+            } catch (Exception exception) {
+
+            }
+        }
+
+        public void sendmessage(String messageText) {
+            Bundle bundle = new Bundle();
+            bundle.putString("messageText", messageText);
+            Message msg = myHandler.obtainMessage();
+            Log.d("testi", msg.toString());
+            msg.setData(bundle);
+            myHandler.sendMessage(msg);
+            Log.d("testi", msg.toString());
+        }
+    }
+
 
 
     @Override
     public void onReceive(final Context context, Intent intent) {
+        this.context = context;
+
         Log.i("LOGIDEBUG", "onReceive: ");
 
         // 1. Get reminderItem from intent
@@ -46,52 +92,14 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
 
         // 4. Start the service with different methods depending on the version
         // of the device
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             context.startForegroundService(textToSpeechIntent);
         } else{
             context.startService(textToSpeechIntent);
         }
-        class NewThread extends Thread {
-            String path;
-            String message;
 
-            public NewThread(String p, String m) {
-                path = p;
-                message = m;
-            }
-
-            public void run() {
-
-                Task<List<Node>> wearableList =
-                        Wearable.getNodeClient(context).getConnectedNodes();
-                try {
-                    List<Node> nodes = Tasks.await(wearableList);
-                    for (Node node : nodes) {
-                        Task<Integer> sendMessageTask =
-                                Wearable.getMessageClient(context).sendMessage(node.getId(), path, message.getBytes());
-                        try {
-                            Integer result = Tasks.await(sendMessageTask);
-                            sendmessage(message);
-
-                        } catch (Exception exception) {
-
-                        }
-                    }
-                } catch (Exception exception) {
-
-                }
-            }
-
-            public void sendmessage(String messageText) {
-                Bundle bundle = new Bundle();
-                bundle.putString("messageText", messageText);
-                Message msg = myHandler.obtainMessage();
-                Log.d("testi", msg.toString());
-                msg.setData(bundle);
-                myHandler.sendMessage(msg);
-                Log.d("testi", msg.toString());
-            }
-        }
+        // 5. Send message to watch
         new NewThread("/my_path", reminder_item.getName() + ";" + reminder_item.getCategory()).start();
     }
 }
