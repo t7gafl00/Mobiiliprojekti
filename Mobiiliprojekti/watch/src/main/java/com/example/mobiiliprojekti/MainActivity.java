@@ -3,12 +3,8 @@ package com.example.mobiiliprojekti;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.TextViewCompat;
 import android.support.wearable.activity.WearableActivity;
-import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.graphics.Typeface;
@@ -20,7 +16,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import java.util.Arrays;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -29,12 +24,10 @@ public class MainActivity extends WearableActivity {
     private static final String TAG = "MyWatchApp";
 
     boolean flip = false;
-    public static boolean done = false;
 
     BoxInsetLayout myLayout;
     TextView myNotificationText;
     ImageView myImage;
-    //int imageCode;
     String codeString;
     int imageResource;
     String textPlaceholder;
@@ -58,11 +51,6 @@ public class MainActivity extends WearableActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         setContentView(R.layout.activity_main);
         Log.i(TAG, "onCreate");
-
-
-
-        //startService();
-
 
 /*
  *******************************************************************
@@ -100,6 +88,7 @@ public class MainActivity extends WearableActivity {
         Log.i(TAG, "onStart");
         timer = new Timer();
         repeatCounter = 0;
+        flip = false;
 
         intent = getIntent();
         try
@@ -146,7 +135,7 @@ public class MainActivity extends WearableActivity {
                 else
                 {
                     Log.i(TAG, "Closing Activity");
-                    moveTaskToBack(true);
+                    finish();
                 }
             }
 
@@ -271,7 +260,6 @@ while the code gets set inside the function to the class variable imageCode.
         String [] splitMessage = parsedMessage.split(";");
         parsedMessage = splitMessage[0];
         codeString = splitMessage[1];
-        //imageCode = Integer.parseInt(codeString);
 
         return parsedMessage;
     }

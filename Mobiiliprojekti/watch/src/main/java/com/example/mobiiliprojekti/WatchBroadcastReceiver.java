@@ -5,19 +5,26 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.TextView;
 
-public class WatchBroadcastReceiver extends BroadcastReceiver {
-
-    private TextView textView;
+public class WatchBroadcastReceiver extends BroadcastReceiver
+{
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-        /*
-        Here we should use the SAME INTENT created in ReminderAlarmManager for two different BroadcastReceivers
-        (first BroadcastReceiver on the phone and second one on the watch)
-        */
-        String message = intent.getSerializableExtra("message").toString();
-        String[] separated = message.split("separator");
-        String onMessageReceived = "I just received a  message from the handheld\r\n" + intent.getSerializableExtra("message").toString();
-        textView.setText(onMessageReceived);
+    public void onReceive(Context context, Intent intent)
+    {
+        if(Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction()))
+        {
+            Intent i = new Intent(context, LogoAtBootActivity.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(i);
+        }
     }
+
+/*    @Override
+    public void onReceive(Context context, Intent intent) {
+
+        Intent i = new Intent(context, LogoAtBootActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(i);
+
+    }*/
 }
