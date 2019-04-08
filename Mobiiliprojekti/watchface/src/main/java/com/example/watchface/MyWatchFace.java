@@ -133,8 +133,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
         private void initializeBackground() {
             mBackgroundPaint = new Paint();
-            mBackgroundPaint.setColor(Color.BLACK);
-            mBackgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.bg);
+            mBackgroundPaint.setColor(Color.WHITE);
+            mBackgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.watchfacebackground);
 
             /* Extracts colors from background image to improve watchface style. */
             Palette.from(mBackgroundBitmap).generate(new Palette.PaletteAsyncListener() {
@@ -142,7 +142,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 public void onGenerated(Palette palette) {
                     if (palette != null) {
                         mWatchHandHighlightColor = palette.getVibrantColor(Color.RED);
-                        mWatchHandColor = palette.getLightVibrantColor(Color.WHITE);
+                        mWatchHandColor = palette.getLightVibrantColor(Color.RED);
                         mWatchHandShadowColor = palette.getDarkMutedColor(Color.BLACK);
                         updateWatchHandStyle();
                     }
@@ -152,7 +152,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
         private void initializeWatchFace() {
             /* Set defaults for colors */
-            mWatchHandColor = Color.WHITE;
+            mWatchHandColor = Color.RED;
             mWatchHandHighlightColor = Color.RED;
             mWatchHandShadowColor = Color.BLACK;
 
@@ -160,7 +160,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mHourPaint.setColor(mWatchHandColor);
             mHourPaint.setStrokeWidth(HOUR_STROKE_WIDTH);
             mHourPaint.setAntiAlias(true);
-            mHourPaint.setStrokeCap(Paint.Cap.ROUND);
+            mHourPaint.setStrokeCap(Paint.Cap.BUTT);
             mHourPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mWatchHandShadowColor);
 
             mMinutePaint = new Paint();

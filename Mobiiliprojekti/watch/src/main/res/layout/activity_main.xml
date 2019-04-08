@@ -8,7 +8,8 @@
     android:background="@color/black"
     android:padding="@dimen/box_inset_layout_padding"
     tools:context=".MainActivity"
-    tools:deviceIds="wear">
+    tools:deviceIds="wear"
+    android:keepScreenOn="true">
 
 
 
