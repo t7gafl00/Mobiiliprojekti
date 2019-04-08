@@ -2,6 +2,7 @@ package com.example.mobiiliprojekti;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PowerManager;
 import android.support.v4.content.ContextCompat;
 import android.support.wearable.activity.WearableActivity;
 import android.view.Gravity;
@@ -23,17 +24,17 @@ public class MainActivity extends WearableActivity {
 
     private static final String TAG = "MyWatchApp";
 
-    boolean flip = false;
+    private boolean flip = false;
 
-    BoxInsetLayout myLayout;
-    TextView myNotificationText;
-    ImageView myImage;
-    String codeString;
-    int imageResource;
-    String textPlaceholder;
-    String imagePlaceholder;
-    LinearLayout textLayout;
-    Intent intent;
+    private BoxInsetLayout myLayout;
+    private TextView myNotificationText;
+    private ImageView myImage;
+    private String codeString;
+    private int imageResource;
+    private String textPlaceholder;
+    private String imagePlaceholder;
+    private LinearLayout textLayout;
+    private Intent intent;
 
 
     Vibrator myVibrator;
@@ -44,6 +45,9 @@ public class MainActivity extends WearableActivity {
     Timer timer;
     public static int repeatCounter = 0;
 
+    PowerManager powerManager;
+    PowerManager.WakeLock wakeLock;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,12 +56,19 @@ public class MainActivity extends WearableActivity {
         setContentView(R.layout.activity_main);
         Log.i(TAG, "onCreate");
 
+        powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+                "MyApp::MyWakelockTag");
+        wakeLock.acquire();
+
 /*
  *******************************************************************
  Initializing layout, notification text, image and vibratorservice
  *******************************************************************
  */
+
         myLayout = findViewById(R.id.boxInsetLayout);
+        myLayout.setVisibility(View.VISIBLE);
         myNotificationText = new TextView(MainActivity.this);
         myNotificationText.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
         myNotificationText.setTypeface(Typeface.DEFAULT_BOLD);
@@ -79,7 +90,7 @@ public class MainActivity extends WearableActivity {
         myVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         // Enables Always-on
-        //setAmbientEnabled();
+        setAmbientEnabled();
     }
 
     @Override
@@ -159,6 +170,7 @@ Cancelling timer, just incase
 *************************************
 */
         timer.cancel();
+        wakeLock.release();
     }
 
     @Override
