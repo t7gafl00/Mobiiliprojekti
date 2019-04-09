@@ -14,13 +14,13 @@ public class MessageService extends WearableListenerService {
 
         if (messageEvent.getPath().equals("/my_path")) {
             try{
-                final String message = new String(messageEvent.getData());
-                PackageManager pm = this.getPackageManager();
-                Intent intent = pm.getLaunchIntentForPackage(this.getPackageName());
-                intent.putExtra("message", message);
+                //Normal way did not work so intent is created using packagemanager.
+                //Returns intent for launchable activity and in this case it is MainActivity.
+                Intent intent = this.getPackageManager().getLaunchIntentForPackage(this.getPackageName());
+                intent.putExtra("message", messageEvent.getData().toString());
                 this.startActivity(intent);
             }catch(Exception e){
-                //Process error here
+                //Process errors here. Currently this is not needed.
             }
         }
         else {
