@@ -178,7 +178,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             mSecondPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mWatchHandShadowColor);
 
             mTickAndCirclePaint = new Paint();
-            mTickAndCirclePaint.setColor(mWatchHandColor);
+            mTickAndCirclePaint.setColor(Color.BLACK);
             mTickAndCirclePaint.setStrokeWidth(SECOND_TICK_STROKE_WIDTH);
             mTickAndCirclePaint.setAntiAlias(true);
             mTickAndCirclePaint.setStyle(Paint.Style.STROKE);
@@ -308,6 +308,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
         }
 
         private void initGrayBackgroundBitmap() {
+            mBackgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.watchfacebackgroundambient);
             mGrayBackgroundBitmap = Bitmap.createBitmap(
                     mBackgroundBitmap.getWidth(),
                     mBackgroundBitmap.getHeight(),
@@ -360,6 +361,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             } else if (mAmbient) {
                 canvas.drawBitmap(mGrayBackgroundBitmap, 0, 0, mBackgroundPaint);
             } else {
+                mBackgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.watchfacebackground);
                 canvas.drawBitmap(mBackgroundBitmap, 0, 0, mBackgroundPaint);
             }
         }
