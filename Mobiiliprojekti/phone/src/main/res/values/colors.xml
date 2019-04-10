@@ -12,5 +12,6 @@
     <color name="drinkWater">#36a9e1</color>
     <color name="meeting">#FCee21</color>
     <color name="alert">#f9b233</color>
+    <color name="colorWhite">#FFFFFF</color>
 
 </resources>
