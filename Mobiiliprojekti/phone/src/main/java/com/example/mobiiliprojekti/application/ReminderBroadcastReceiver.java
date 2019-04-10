@@ -25,17 +25,17 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
     protected Handler myHandler;
     private Context context;
 
-    class NewThread extends Thread {
-        String path;
-        String message;
+    class NewThread extends Thread {    //Inner class for sending messages to clock
+        private String path;    //An unique identifier for wearable to access the message
+        private String message; //The message to wearable
 
-        public NewThread(String p, String m) {
-            path = p;
-            message = m;
+        public NewThread(String mPath, String mMessage) {
+            path = mPath;
+            message = mMessage;
         }
 
         public void run() {
-
+            //Gets a list of connected nodes to which the device is connected
             Task<List<Node>> wearableList =
                     Wearable.getNodeClient(context).getConnectedNodes();
             try {
@@ -56,14 +56,12 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
             }
         }
 
-        public void sendmessage(String messageText) {
+        public void sendmessage(String messageText) {   //Function that is called inside the run-function in NewThread class
             Bundle bundle = new Bundle();
             bundle.putString("messageText", messageText);
-            Message msg = myHandler.obtainMessage();
-            Log.d("testi", msg.toString());
+            Message msg = myHandler.obtainMessage(); //Returns a new message from  the global message pool
             msg.setData(bundle);
-            myHandler.sendMessage(msg);
-            Log.d("testi", msg.toString());
+            myHandler.sendMessage(msg); //Pushes a message onto the end of the message queue
         }
     }
 
@@ -100,7 +98,7 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
         }
 
         // 5. Send message to watch
-        new NewThread("/my_path", reminder_item.getName() + ";" + reminder_item.getCategory()).start();
+        new NewThread("/my_path", reminder_item.getName() + ";" + reminder_item.getCategory()).start();     //Starts a new thread to send a message to a clock
     }
 }
 

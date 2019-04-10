@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 
 import com.example.mobiiliprojekti.model.ReminderItem;
@@ -39,7 +40,6 @@ public class ReminderAlarmManager {
         String reminder_minute_String = reminder_time.substring(reminder_time.indexOf(":") + 1);
         int reminder_hour = Integer.valueOf(reminder_hour_String);
         int reminder_minute = Integer.valueOf(reminder_minute_String);
-
         /* 2. Create alarm calendar object */
         Calendar alarm_Calendar = getInstance();
         alarm_Calendar.setTimeInMillis(System.currentTimeMillis());
@@ -56,7 +56,7 @@ public class ReminderAlarmManager {
 
         /* 3. Create intent */
         Intent intent = new Intent(this.context, ReminderBroadcastReceiver.class);
-        //intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         // reminderItem is passed in order to recreate alarm for the next day in BroadcastReceiver
         // A bundle must be used to pass reminderItem object,
         // as it doesn't work on the BroadcastReceiver side if we try to pass it directly to intent

@@ -26,7 +26,12 @@ public class ReminderItemArrayAdapter extends ArrayAdapter<ReminderItem> {
         ReminderItem reminderitem = getItem(position);
 
         convertView = LayoutInflater.from(getContext()).inflate(R.layout.reminder_list_item, parent, false);
-
+        if (position % 2 == 0) {
+            convertView.setBackgroundResource(R.color.darkBorder);
+        }
+        else {
+            convertView.setBackgroundResource(R.color.lightBorder);
+        }
         TextView item_name = convertView.findViewById(R.id.reminderListItem_name_TextView);
         item_name.setText(reminderitem.getName());
         TextView item_time = convertView.findViewById(R.id.reminderListItem_time_TextView);
