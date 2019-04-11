@@ -11,6 +11,12 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:actionBarStyle">@style/ActionbarLogo</item>
+    </style>
+
+    <style name="ActionbarLogo">
+        <item name="android:logo">@drawable/memini_logo</item>
+        <item name="android:displayOptions">useLogo</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

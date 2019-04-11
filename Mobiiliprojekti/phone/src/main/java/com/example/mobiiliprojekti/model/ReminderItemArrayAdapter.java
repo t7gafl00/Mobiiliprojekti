@@ -1,9 +1,11 @@
 package com.example.mobiiliprojekti.model;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,10 +38,14 @@ public class ReminderItemArrayAdapter extends ArrayAdapter<ReminderItem> {
 
         TextView item_name = convertView.findViewById(R.id.reminderListItem_name_TextView);
         item_name.setText(reminderitem.getName());
+        item_name.setTextColor(Color.WHITE);
         TextView item_time = convertView.findViewById(R.id.reminderListItem_time_TextView);
         item_time.setText(reminderitem.getTime());
         TextView item_category = convertView.findViewById(R.id.reminderListItem_category_TextView);
+        item_category.setText(reminderitem.getCategory());
         item_category.setTextColor(Color.WHITE);
+
+        //item_category.getResources().getColor(R.color.colorWhite);
         CheckBox item_checked = convertView.findViewById(R.id.reminderListItem_checked_CheckBox);
 
         // Set checkboxes
@@ -48,10 +54,30 @@ public class ReminderItemArrayAdapter extends ArrayAdapter<ReminderItem> {
         } else {
             item_checked.setChecked(false);
         }
+
         //Set textcolor based on the category
-        switch (reminderitem.getCategory()) {   //Drink, Eat, Medication, Shower, Social, Toilet, Warning
+        switch (reminderitem.getCategory()) {   //Drink, Eat, Medication, Shower, Social, Toilet, Alert
             case "Drink":
-                item_category.setTextColor(Color.BLUE);
+                item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.drinkWater));
+                break;
+            case "Eat":
+                item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.eat));
+                break;
+            case "Medication":
+                item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.medicine));;
+                break;
+            case "Shower":
+                item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.shower));
+                break;
+            case "Social":
+                item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.social));
+                break;
+            case "Toilet":
+                item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.toilet));
+                break;
+            case "Warning":
+                item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.alert));
+                break;
         }
 
         return convertView;
