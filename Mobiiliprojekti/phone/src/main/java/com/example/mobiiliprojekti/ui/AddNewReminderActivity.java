@@ -1,7 +1,9 @@
 package com.example.mobiiliprojekti.ui;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,7 +55,6 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         category_Spinner.setAdapter(adapter);
-
         category_Spinner.setOnItemSelectedListener(this);
 
         /* Set up done Button */
@@ -83,8 +84,11 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
             hour = reminderTime_TimePicker.getHour();
             minute = reminderTime_TimePicker.getMinute();
         } else {
-            hour = reminderTime_TimePicker.getCurrentHour();
-            minute = reminderTime_TimePicker.getCurrentMinute();
+            //hour = reminderTime_TimePicker.getCurrentHour();
+            hour = reminderTime_TimePicker.getHour();
+            //minute = reminderTime_TimePicker.getCurrentMinute();
+            minute = reminderTime_TimePicker.getMinute();
+
         }
 
         // Append leading zeros to get time in form HH:MM
@@ -122,6 +126,31 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
         // An item was selected. You can retrieve the selected item using
         category_from_Spinner = (String) parent.getItemAtPosition(position);
         Log.i("LOGIDEBUG", "onItemSelected: " + category_from_Spinner);
+
+        //Change text's color according to category.
+        switch (((String) parent.getItemAtPosition(position)).toLowerCase().toString()){
+            case("drink"):
+                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.drinkWater));
+                break;
+            case("eat"):
+                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.eat));
+                break;
+            case("medication"):
+                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.medicine));
+                break;
+            case("shower"):
+                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.shower));
+                break;
+            case("social"):
+                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.meeting));
+                break;
+            case("toilet"):
+                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.toilet));
+                break;
+            case("warning"):
+                ((TextView) parent.getChildAt(0)).setTextColor(this.getResources().getColor(R.color.alert));
+                break;
+        }
     }
 
     @Override

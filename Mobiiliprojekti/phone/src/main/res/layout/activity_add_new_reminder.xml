@@ -6,51 +6,104 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.AddNewReminderActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/darkBorder">
 
-    <TextView
-        android:id="@+id/addNewReminder_time_TextView"
+
+    <!--
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Time" />
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/memini_logo"
+        android:background="@color/lightBorder"
+        android:scaleType="fitStart"
+        android:padding="10dp"/>
+    -->
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
 
     <TimePicker
         android:id="@+id/addNewReminder_time_TimePicker"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:timePickerMode="spinner">
-    </TimePicker>
+        android:timePickerMode="spinner"
+        android:background="@color/lightBorder"
+        android:theme="@style/TimePickerDialogStyle"/>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
 
     <TextView
         android:id="@+id/addNewReminder_category_TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Category" />
+        android:text="Category"
+        android:background="@color/lightBorder"
+        android:textColor="#FFFFFF"
+        android:padding="5dp"/>
 
-    <Spinner
-        android:id="@+id/category_Spinner"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightBorder"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/category_Spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="20dp"/>
+    </LinearLayout>
+
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
 
     <TextView
         android:id="@+id/addNewReminder_name_TextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name" />
+        android:text="Name"
+        android:background="@color/lightBorder"
+        android:textColor="#FFFFFF"
+        android:padding="5dp"/>
 
     <EditText
         android:id="@+id/addNewReminder_name_EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Your reminder name here" />
+        android:hint="Your reminder name here"
+        android:background="@color/lightBorder"
+        android:textColorHint="#FFFFFF"
+        android:textColor="#FFFFFF"
+        android:padding="5dp"/>
 
-    <Button
-        android:id="@+id/addNewReminder_done_Button"
-        android:layout_width="wrap_content"
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <LinearLayout
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:background="#FFFFFF"
+        android:padding="2dp"
+        android:orientation="vertical"
+        android:layout_gravity="center">
 
-        android:text="DONE"/>
+        <Button
+            android:id="@+id/addNewReminder_done_Button"
+            android:layout_width="225dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/lightBorder"
+            android:textSize="50dp"
+            android:text="DONE"
+            android:textColor="#FFFFFF"/>
+    </LinearLayout>
 
 </LinearLayout>
