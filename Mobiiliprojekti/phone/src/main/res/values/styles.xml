@@ -17,4 +17,15 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="TimePickerTheme" parent="Theme.AppCompat.Light">
+        <item name="android:timePickerDialogTheme">@style/TimePickerDialogStyle</item>
+    </style>
+    <style name="TimePickerDialogStyle" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="showTitle">false</item>
+        <item name="colorControlActivated">@color/lightBorder</item>
+        <item name="colorAccent">@color/lightBorder</item>
+        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="android:textColorSecondary">#ffffff</item>
+    </style>
+
 </resources>
