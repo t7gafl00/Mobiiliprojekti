@@ -1,16 +1,21 @@
 package com.example.mobiiliprojekti.ui;
 
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -19,6 +24,9 @@ import com.example.mobiiliprojekti.R;
 import com.example.mobiiliprojekti.application.ReminderAlarmManager;
 import com.example.mobiiliprojekti.model.ReminderItem;
 import com.example.mobiiliprojekti.model.ReminderModel;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AddNewReminderActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
@@ -49,12 +57,32 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
         /* Set up Spinner containing categories */
         category_Spinner = findViewById(R.id.category_Spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
+        /*
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.categories_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        */
+
+        //Create an ArrayAdapter using the string array and a custom spinner layout
+        //Resources resources = getResources();
+        /*//String[] array = resources.getStringArray(R.array.categories_array);
+        int ID = getResources().getIdentifier(
+                "categories_array",
+                "values",
+                this.getPackageName()
+        );
+        Log.d("kimmo", Integer.toString(ID));
+        String[] array = getResources().getStringArray(ID);*/
+        String[] array = {"drink", "eat", "medication", "shower", "social", "toilet", "warning"};
+        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(array));
+        DropDownMenuAdapter adapter = new DropDownMenuAdapter(this, arrayList);
+
         // Apply the adapter to the spinner
+        Log.d("kimmo", "asetetaan adapteri");
         category_Spinner.setAdapter(adapter);
+        //category_Spinner.getBackground().setColorFilter(ContextCompat.getColor( this, R.color.lightBorder), PorterDuff.Mode.SRC_ATOP);
+        Log.d("kimmo", "asetetaan OnItemSelectedListener");
         category_Spinner.setOnItemSelectedListener(this);
 
         /* Set up done Button */
@@ -88,7 +116,6 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
             hour = reminderTime_TimePicker.getHour();
             //minute = reminderTime_TimePicker.getCurrentMinute();
             minute = reminderTime_TimePicker.getMinute();
-
         }
 
         // Append leading zeros to get time in form HH:MM
@@ -124,33 +151,36 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // An item was selected. You can retrieve the selected item using
+        Log.d("kimmo", "onItemSelected: ");
         category_from_Spinner = (String) parent.getItemAtPosition(position);
         Log.i("LOGIDEBUG", "onItemSelected: " + category_from_Spinner);
 
         //Change text's color according to category.
+        /*Log.d("kimmo", "switch");
         switch (((String) parent.getItemAtPosition(position)).toLowerCase().toString()){
             case("drink"):
-                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.drinkWater));
+                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.drinkWater));
+                //((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.drinkWater));
                 break;
             case("eat"):
-                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.eat));
+                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.eat));
                 break;
             case("medication"):
-                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.medicine));
+                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.medicine));
                 break;
             case("shower"):
-                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.shower));
+                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.shower));
                 break;
             case("social"):
-                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.meeting));
+                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.meeting));
                 break;
             case("toilet"):
-                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.toilet));
+                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.toilet));
                 break;
             case("warning"):
-                ((TextView) parent.getChildAt(0)).setTextColor(this.getResources().getColor(R.color.alert));
+                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(this.getResources().getColor(R.color.alert));
                 break;
-        }
+        }*/
     }
 
     @Override
