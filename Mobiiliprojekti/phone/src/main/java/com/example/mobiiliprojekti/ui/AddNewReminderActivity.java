@@ -142,7 +142,7 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
                 ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.shower));
                 break;
             case("social"):
-                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.meeting));
+                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.social));
                 break;
             case("toilet"):
                 ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.toilet));
