@@ -52,9 +52,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/spinner_categories"
-                    android:background="@color/lightBorder"
+                    android:minHeight="30dp"
+                    android:popupBackground="@color/darkBorder"
                 ></Spinner>
-                
 
             </LinearLayout>
 
@@ -71,7 +71,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@android:drawable/ic_input_add" />
+            app:srcCompat="@drawable/icon_plus_bigger"
+            app:backgroundTint="@color/lightBorder"/>
 
 
 </android.support.design.widget.CoordinatorLayout>

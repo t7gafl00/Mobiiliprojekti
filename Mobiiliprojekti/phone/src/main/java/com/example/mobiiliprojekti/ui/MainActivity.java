@@ -9,8 +9,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +24,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.mobiiliprojekti.R;
 import com.example.mobiiliprojekti.application.ReminderAlarmManager;
@@ -37,7 +41,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
 
     ArrayList<ReminderItem> reminderItems_ArrayList = new ArrayList<>();
     ListView listView = null;
@@ -46,8 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ReminderItem reminderItem = null;
 
     Context context;
-
+    private String category_from_Spinner;
     protected Handler myHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,9 +65,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Spinner spinner = (Spinner)findViewById(R.id.spinner_categories);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.categories_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                R.array.categories_array, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(this);
+
+
 
         //Tarvitaan
         myHandler = new Handler(new Handler.Callback() {
@@ -136,6 +144,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -177,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -209,4 +219,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ReminderItemArrayAdapter adapter = new ReminderItemArrayAdapter(this, reminderItems_ArrayList);
         listView.setAdapter(adapter);
     }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        category_from_Spinner = (String) parent.getItemAtPosition(position);
+        category_from_Spinner = (String) parent.getItemAtPosition(position);
+
+        //Change text's color according to category.
+        switch (((String) parent.getItemAtPosition(position)).toLowerCase().toString()){
+            case("drink"):
+                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.drinkWater));
+                break;
+            case("eat"):
+                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.eat));
+                break;
+            case("medication"):
+                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.medicine));
+                break;
+            case("shower"):
+                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.shower));
+                break;
+            case("social"):
+                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.social));
+                break;
+            case("toilet"):
+                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.toilet));
+                break;
+            case("warning"):
+                ((TextView) parent.getChildAt(0)).setTextColor(this.getResources().getColor(R.color.alert));
+                break;
+        }
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
 }
