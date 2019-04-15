@@ -70,7 +70,7 @@ public class ReminderItemArrayAdapter extends ArrayAdapter<ReminderItem> {
                 item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.shower));
                 break;
             case "Social":
-                item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.social));
+                item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.meeting));
                 break;
             case "Toilet":
                 item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.toilet));

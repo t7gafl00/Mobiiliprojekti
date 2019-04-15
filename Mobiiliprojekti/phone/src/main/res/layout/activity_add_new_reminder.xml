@@ -9,7 +9,6 @@
     android:orientation="vertical"
     android:background="@color/darkBorder">
 
-
     <!--
     <ImageView
         android:id="@+id/imageView"
