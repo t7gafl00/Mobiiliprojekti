@@ -66,7 +66,7 @@ public class DropDownMenuAdapter extends ArrayAdapter<String> {
                 textView.setTextColor(ContextCompat.getColor(context, R.color.shower));
                 break;
             case("social"):
-                textView.setTextColor(ContextCompat.getColor(context, R.color.social));
+                textView.setTextColor(ContextCompat.getColor(context, R.color.meeting));
                 break;
             case("toilet"):
                 textView.setTextColor(ContextCompat.getColor(context, R.color.toilet));
