@@ -1,8 +1,10 @@
 package com.example.mobiiliprojekti.ui;
 
 import android.content.Context;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,28 +15,67 @@ import android.widget.TextView;
 import com.example.mobiiliprojekti.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DropDownMenuAdapter extends ArrayAdapter<String> {
 
-    public DropDownMenuAdapter(Context context, ArrayList<String> strings){
+    private LayoutInflater inflater;
+    private Context context;
+    private int resource;
+    private ArrayList<String> items;
+
+    public DropDownMenuAdapter(Context context, @LayoutRes int resource, ArrayList<String> strings){
         super(context, 0, strings);
         Log.d("kimmo", "Adapterin luontifunktio");
+        this.context = context;
+        inflater = LayoutInflater.from(context);
+        this.resource = resource;
+        items = strings;
     }
 
-    @NonNull
     @Override
-    public View getView(int position, @Nullable View view, @NonNull ViewGroup parent) {
-        String stringCategory = getItem(position).toString();
+    public View getDropDownView(int position, @Nullable View convertView,
+                                @NonNull ViewGroup parent) {
+        return createItemView(position, convertView, parent);
+    }
 
-        if (view == null) {
-            Log.d("", "null view");
-            int layoutId = R.layout.drop_down_menu_item_custom;
-            view = LayoutInflater.from(getContext()).inflate(layoutId, parent, false);
+    @Override
+    public @NonNull View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+        return createItemView(position, convertView, parent);
+    }
+
+    private View createItemView(int position, View convertView, ViewGroup parent){
+
+        View view = inflater.inflate(resource, parent, false);
+
+        String stringCategory = getItem(position);
+        Log.d("kimmo", "stringCategory: " + stringCategory);
+        TextView textView = view.findViewById(R.id.txtCategory);
+        textView.setText(stringCategory);
+
+        switch (textView.getText().toString().toLowerCase()){
+            case("drink"):
+                textView.setTextColor(ContextCompat.getColor(context, R.color.drinkWater));
+                break;
+            case("eat"):
+                textView.setTextColor(ContextCompat.getColor(context, R.color.eat));
+                break;
+            case("medication"):
+                textView.setTextColor(ContextCompat.getColor(context, R.color.medicine));
+                break;
+            case("shower"):
+                textView.setTextColor(ContextCompat.getColor(context, R.color.shower));
+                break;
+            case("social"):
+                textView.setTextColor(ContextCompat.getColor(context, R.color.meeting));
+                break;
+            case("toilet"):
+                textView.setTextColor(ContextCompat.getColor(context, R.color.toilet));
+                break;
+            case("warning"):
+                textView.setTextColor(ContextCompat.getColor(context, R.color.alert));
+                break;
         }
-
-        TextView categoryText = view.findViewById(R.id.txtCategory);
-        categoryText.setText(stringCategory);
+        Log.d("kimmo", "switch completed");
 
         return view;
     }

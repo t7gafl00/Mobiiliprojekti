@@ -49,20 +49,20 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
 
         model = new ReminderModel((this));
 
-        /* Set up TimePicker */
+        //Set up TimePicker
         reminderName_EditText = findViewById(R.id.addNewReminder_name_EditText);
         reminderTime_TimePicker = findViewById(R.id.addNewReminder_time_TimePicker);
         reminderTime_TimePicker.setIs24HourView(true);
 
-        /* Set up Spinner containing categories */
+        //Set up Spinner containing categories
         category_Spinner = findViewById(R.id.category_Spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        /*
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+
+        /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.categories_array, android.R.layout.simple_spinner_item);
         // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        */
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);*/
+
 
         //Create an ArrayAdapter using the string array and a custom spinner layout
         //Resources resources = getResources();
@@ -76,12 +76,11 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
         String[] array = getResources().getStringArray(ID);*/
         String[] array = {"drink", "eat", "medication", "shower", "social", "toilet", "warning"};
         ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(array));
-        DropDownMenuAdapter adapter = new DropDownMenuAdapter(this, arrayList);
+        DropDownMenuAdapter adapter = new DropDownMenuAdapter(this, R.layout.drop_down_menu_item_custom, arrayList);
 
         // Apply the adapter to the spinner
         Log.d("kimmo", "asetetaan adapteri");
         category_Spinner.setAdapter(adapter);
-        //category_Spinner.getBackground().setColorFilter(ContextCompat.getColor( this, R.color.lightBorder), PorterDuff.Mode.SRC_ATOP);
         Log.d("kimmo", "asetetaan OnItemSelectedListener");
         category_Spinner.setOnItemSelectedListener(this);
 
@@ -93,8 +92,8 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
 
+        Log.d("kimmo", "onClick: ");
         int viewId = v.getId();
-
         /* Handle press on "DONE" button */
         if (viewId == R.id.addNewReminder_done_Button) {
             saveReminder();
@@ -106,6 +105,7 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
     private void saveReminder() {
 
         // Get time from TimePicker
+        Log.d("kimmo", "saveReminder: ");
         int hour;
         int minute;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -151,16 +151,13 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // An item was selected. You can retrieve the selected item using
-        Log.d("kimmo", "onItemSelected: ");
         category_from_Spinner = (String) parent.getItemAtPosition(position);
         Log.i("LOGIDEBUG", "onItemSelected: " + category_from_Spinner);
 
         //Change text's color according to category.
-        /*Log.d("kimmo", "switch");
-        switch (((String) parent.getItemAtPosition(position)).toLowerCase().toString()){
+        switch (((String) parent.getItemAtPosition(position)).toLowerCase()){
             case("drink"):
                 ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.drinkWater));
-                //((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.drinkWater));
                 break;
             case("eat"):
                 ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.eat));
@@ -178,9 +175,9 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
                 ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.toilet));
                 break;
             case("warning"):
-                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(this.getResources().getColor(R.color.alert));
+                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.alert));
                 break;
-        }*/
+        }
     }
 
     @Override
