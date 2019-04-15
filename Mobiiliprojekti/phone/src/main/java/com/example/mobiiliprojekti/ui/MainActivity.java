@@ -5,20 +5,28 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.Spinner;
 
+import com.estimote.mustard.rx_goodness.rx_requirements_wizard.Requirement;
+import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory;
 import com.example.mobiiliprojekti.R;
+import com.example.mobiiliprojekti.application.BeaconController;
 import com.example.mobiiliprojekti.application.ReminderAlarmManager;
 import com.example.mobiiliprojekti.model.ReminderItem;
 import com.example.mobiiliprojekti.model.ReminderItemArrayAdapter;
@@ -32,6 +40,10 @@ import com.google.android.gms.wearable.Wearable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
+import kotlin.jvm.functions.Function1;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -48,10 +60,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+        BeaconController beaconController = (BeaconController) getApplication();
+        context = beaconController.getApplicationContext();
 
+        //Require permission for beacon scanning
+
+        RequirementsWizardFactory
+                .createEstimoteRequirementsWizard()
+                .fulfillRequirements(this,
+                        new Function0<Unit>() {
+                            @Override
+                            public Unit invoke() {
+                                Log.d("LOGIDEBUG", "requirements fulfilled");
+                                //application.enableBeaconNotifications();
+                                return null;
+                            }
+                        },
+                        new Function1<List<? extends Requirement>, Unit>() {
+                            @Override
+                            public Unit invoke(List<? extends Requirement> requirements) {
+                                Log.e("LOGIDEBUG", "requirements missing: " + requirements);
+                                return null;
+                            }
+                        },
+                        new Function1<Throwable, Unit>() {
+                            @Override
+                            public Unit invoke(Throwable throwable) {
+                                Log.e("LOGIDEBUG", "requirements error: " + throwable);
+                                return null;
+                            }
+                        });
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Spinner spinner = (Spinner)findViewById(R.id.spinner_categories);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.categories_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
         //Tarvitaan
         myHandler = new Handler(new Handler.Callback() {
             @Override
@@ -133,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /* Handle clicks on categories icons
     * Does nothing at the moment */
+    /*
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -152,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return super.onOptionsItemSelected(item);
         }
     }
-
+*/
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
