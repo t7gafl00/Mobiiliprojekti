@@ -5,7 +5,7 @@
     android:id="@+id/boxInsetLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green"
+    android:background="@color/black"
     android:padding="@dimen/box_inset_layout_padding"
     tools:context=".MainActivity"
     tools:deviceIds="wear">
@@ -13,6 +13,6 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/testi_ikoni"/>
+        android:src="@drawable/memini_logo"/>
 
 </android.support.wear.widget.BoxInsetLayout>

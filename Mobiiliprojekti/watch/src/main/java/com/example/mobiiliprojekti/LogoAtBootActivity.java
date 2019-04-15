@@ -54,7 +54,7 @@ public class LogoAtBootActivity extends WearableActivity {
                     timeToClose = true;
                 }
             }
-        }, 0, 3000);
+        }, 0, 5000);
     }
 }
 
