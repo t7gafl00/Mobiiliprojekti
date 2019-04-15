@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -46,6 +47,7 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_reminder);
+        getSupportActionBar().hide();
 
         model = new ReminderModel((this));
 
@@ -170,7 +172,7 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
                 ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.shower));
                 break;
             case("social"):
-                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.social));
+                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.meeting));
                 break;
             case("toilet"):
                 ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.toilet));
