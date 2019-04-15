@@ -78,8 +78,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
     }
 
     private class Engine extends CanvasWatchFaceService.Engine {
-        private static final float HOUR_STROKE_WIDTH = 5f;
-        private static final float MINUTE_STROKE_WIDTH = 3f;
+        private static final float HOUR_STROKE_WIDTH = 10f;
+        private static final float MINUTE_STROKE_WIDTH = 7f;
         private static final float SECOND_TICK_STROKE_WIDTH = 2f;
 
         private static final float CENTER_GAP_AND_CIRCLE_RADIUS = 4f;
@@ -133,16 +133,16 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
         private void initializeBackground() {
             mBackgroundPaint = new Paint();
-            mBackgroundPaint.setColor(Color.WHITE);
-            mBackgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.watchfacebackground);
+            mBackgroundPaint.setColor(Color.BLACK);
+            mBackgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.watchfacebackgroundambient);
 
             /* Extracts colors from background image to improve watchface style. */
             Palette.from(mBackgroundBitmap).generate(new Palette.PaletteAsyncListener() {
                 @Override
                 public void onGenerated(Palette palette) {
                     if (palette != null) {
-                        mWatchHandHighlightColor = palette.getVibrantColor(Color.RED);
-                        mWatchHandColor = palette.getLightVibrantColor(Color.RED);
+                        mWatchHandHighlightColor = palette.getVibrantColor(Color.WHITE);
+                        mWatchHandColor = palette.getLightVibrantColor(Color.parseColor("#BF1425"));
                         mWatchHandShadowColor = palette.getDarkMutedColor(Color.BLACK);
                         updateWatchHandStyle();
                     }
@@ -152,8 +152,8 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
         private void initializeWatchFace() {
             /* Set defaults for colors */
-            mWatchHandColor = Color.RED;
-            mWatchHandHighlightColor = Color.RED;
+            mWatchHandColor = Color.parseColor("#BF1425");
+            mWatchHandHighlightColor = Color.WHITE;
             mWatchHandShadowColor = Color.BLACK;
 
             mHourPaint = new Paint();
@@ -165,21 +165,21 @@ public class MyWatchFace extends CanvasWatchFaceService {
 
             mMinutePaint = new Paint();
             mMinutePaint.setColor(mWatchHandColor);
-            mMinutePaint.setStrokeWidth(MINUTE_STROKE_WIDTH);
+            mMinutePaint.setStrokeWidth(HOUR_STROKE_WIDTH);
             mMinutePaint.setAntiAlias(true);
-            mMinutePaint.setStrokeCap(Paint.Cap.ROUND);
+            mMinutePaint.setStrokeCap(Paint.Cap.SQUARE);
             mMinutePaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mWatchHandShadowColor);
 
             mSecondPaint = new Paint();
             mSecondPaint.setColor(mWatchHandHighlightColor);
             mSecondPaint.setStrokeWidth(SECOND_TICK_STROKE_WIDTH);
             mSecondPaint.setAntiAlias(true);
-            mSecondPaint.setStrokeCap(Paint.Cap.ROUND);
+            mSecondPaint.setStrokeCap(Paint.Cap.SQUARE);
             mSecondPaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mWatchHandShadowColor);
 
             mTickAndCirclePaint = new Paint();
             mTickAndCirclePaint.setColor(Color.BLACK);
-            mTickAndCirclePaint.setStrokeWidth(SECOND_TICK_STROKE_WIDTH);
+            mTickAndCirclePaint.setStrokeWidth(5f);
             mTickAndCirclePaint.setAntiAlias(true);
             mTickAndCirclePaint.setStyle(Paint.Style.STROKE);
             mTickAndCirclePaint.setShadowLayer(SHADOW_RADIUS, 0, 0, mWatchHandShadowColor);
@@ -236,7 +236,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
                 mHourPaint.setColor(mWatchHandColor);
                 mMinutePaint.setColor(mWatchHandColor);
                 mSecondPaint.setColor(mWatchHandHighlightColor);
-                mTickAndCirclePaint.setColor(mWatchHandColor);
+                mTickAndCirclePaint.setColor(mWatchHandHighlightColor);
 
                 mHourPaint.setAntiAlias(true);
                 mMinutePaint.setAntiAlias(true);
@@ -281,7 +281,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
              * Calculate lengths of different hands based on watch screen size.
              */
             mSecondHandLength = (float) (mCenterX * 0.875);
-            sMinuteHandLength = (float) (mCenterX * 0.75);
+            sMinuteHandLength = (float) (mCenterX * 0.65);
             sHourHandLength = (float) (mCenterX * 0.5);
 
 
@@ -361,7 +361,7 @@ public class MyWatchFace extends CanvasWatchFaceService {
             } else if (mAmbient) {
                 canvas.drawBitmap(mGrayBackgroundBitmap, 0, 0, mBackgroundPaint);
             } else {
-                mBackgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.watchfacebackground);
+                mBackgroundBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.watchfacebackgroundambient);
                 canvas.drawBitmap(mBackgroundBitmap, 0, 0, mBackgroundPaint);
             }
         }
