@@ -71,9 +71,8 @@ public class TextToSpeechManager extends Service implements TextToSpeech.OnInitL
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            spokenText = Objects.requireNonNull(intent.getExtras()).getString("MESSAGE");
-        }
+
+        spokenText = Objects.requireNonNull(intent.getExtras()).getString("MESSAGE");
         bindToService();
         textToSpeech = new TextToSpeech(this, this);
         int notificationID = 234;

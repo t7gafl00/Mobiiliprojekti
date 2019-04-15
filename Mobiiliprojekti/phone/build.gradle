@@ -25,6 +25,9 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     wearApp project(':watch')
     implementation 'com.google.android.gms:play-services-wearable:+'
+    implementation 'com.estimote:sdk:1.0.12'
+    implementation 'org.altbeacon:android-beacon-library:2.16.1'
+    implementation 'com.estimote:mustard:0.2.1'
 
     //implementation 'com.google.android.gms:play-services-wearable:16.0.1'
 
