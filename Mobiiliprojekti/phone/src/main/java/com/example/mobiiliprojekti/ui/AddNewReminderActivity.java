@@ -152,6 +152,7 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // An item was selected. You can retrieve the selected item using
         category_from_Spinner = (String) parent.getItemAtPosition(position);
+        category_from_Spinner = (String) parent.getItemAtPosition(position);
         Log.i("LOGIDEBUG", "onItemSelected: " + category_from_Spinner);
 
         //Change text's color according to category.
