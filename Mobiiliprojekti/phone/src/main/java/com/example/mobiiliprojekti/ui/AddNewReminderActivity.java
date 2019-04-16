@@ -55,6 +55,7 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
 
         //Set up Spinner containing categories
         category_Spinner = findViewById(R.id.category_Spinner);
+        category_Spinner.getBackground().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
         // Create an ArrayAdapter using the string array and a default spinner layout
 
         /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
