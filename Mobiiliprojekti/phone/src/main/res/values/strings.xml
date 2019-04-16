@@ -7,6 +7,7 @@
     <string name="show_notification_button_Text">Show notification</string>
 
     <string-array name="categories_array">
+        <item>All</item>
         <item>Drink</item>
         <item>Eat</item>
         <item>Medication</item>

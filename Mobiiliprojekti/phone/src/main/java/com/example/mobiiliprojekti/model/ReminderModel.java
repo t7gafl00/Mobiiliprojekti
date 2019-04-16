@@ -50,31 +50,23 @@ public class ReminderModel {
 
     /* Get items from db based on a filter value and order them by time of day
      *  The filter value could be used to display items based on what category they belong to */
-    public Cursor getReminderItemsList(int filter_value) {
+    public Cursor getReminderItemsList(String category) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         Cursor cursor = null;
 
-        switch (filter_value) {
-            case 0:
-                cursor = db.rawQuery(
-                        "SELECT _id, time, category, name, checked FROM reminderItems ORDER BY strftime('%HH:%MM', time) ASC", new String[0]);
-
-                // String dump = DatabaseUtils.dumpCursorToString(cursor);
-                // Log.i("LOGIDEBUG", "getId: dumpCursorToString: " + dump);
-                break;
-
-            case 1:
-                // The query here could be useful to filter objects based on what category they belong to
-                /*
-                Cursor cursor = db.rawQuery(
-                        "SELECT name, description, (strftime('%d.%m.%Y', date)) AS date, checked FROM toDoItems " +
-                                "WHERE date = date('now')", new String[0]);
-                                */
-                break;
-
+        if (category.equals("all")) {
+            cursor = db.rawQuery(
+                    "SELECT _id, time, category, name, checked FROM reminderItems ORDER BY strftime('%HH:%MM', time) ASC", new String[0]);
+        } else {
+            cursor = db.rawQuery(
+                    "SELECT _id, time, category, name, checked FROM reminderItems WHERE category = ? ORDER BY strftime('%HH:%MM', time) ASC",
+                    new String[]{category});
         }
-
+        /*
+        String dump = DatabaseUtils.dumpCursorToString(cursor);
+        Log.i("LOGIDEBUG", "getId: dumpCursorToString: " + dump);
+        */
         return cursor;
     }
 

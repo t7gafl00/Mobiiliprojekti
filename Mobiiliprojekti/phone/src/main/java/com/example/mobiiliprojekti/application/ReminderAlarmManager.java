@@ -95,7 +95,7 @@ public class ReminderAlarmManager {
     {
         Log.i("LOGIDEBUG", "restoreAllReminderAlarms: ");
         ReminderModel reminderModel = new ReminderModel((this.context));;
-        Cursor cursor = reminderModel.getReminderItemsList(0);
+        Cursor cursor = reminderModel.getReminderItemsList("all");
 
         // Fetch all reminders from database and create corresponding alarms
         while (cursor.moveToNext()) {
