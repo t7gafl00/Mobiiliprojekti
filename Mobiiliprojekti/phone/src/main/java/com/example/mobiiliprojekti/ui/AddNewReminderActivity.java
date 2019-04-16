@@ -1,5 +1,6 @@
 package com.example.mobiiliprojekti.ui;
 
+import android.content.res.Resources;
 import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
@@ -73,16 +74,18 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
                 "values",
                 this.getPackageName()
         );
+
         Log.d("kimmo", Integer.toString(ID));
-        String[] array = getResources().getStringArray(ID);*/
-        String[] array = {"drink", "eat", "medication", "shower", "social", "toilet", "warning"};
+        */
+
+        Resources resources = getResources();
+        String[] array = resources.getStringArray(R.array.categories_array);
+
         ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(array));
         DropDownMenuAdapter adapter = new DropDownMenuAdapter(this, R.layout.drop_down_menu_item_custom, arrayList);
 
         // Apply the adapter to the spinner
-        Log.d("kimmo", "asetetaan adapteri");
         category_Spinner.setAdapter(adapter);
-        Log.d("kimmo", "asetetaan OnItemSelectedListener");
         category_Spinner.setOnItemSelectedListener(this);
 
         /* Set up done Button */
@@ -136,7 +139,7 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
         String name = String.valueOf(reminderName_EditText.getText());
 
         // Get category from Spinner
-        String category = category_from_Spinner;
+        String category = category_from_Spinner.toLowerCase();
 
         // Create object and insert data into db
         ReminderItem reminderItem = new ReminderItem(time, name, category, 0);
