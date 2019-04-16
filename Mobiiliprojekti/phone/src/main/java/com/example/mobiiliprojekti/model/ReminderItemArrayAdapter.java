@@ -39,8 +39,10 @@ public class ReminderItemArrayAdapter extends ArrayAdapter<ReminderItem> {
         TextView item_name = convertView.findViewById(R.id.reminderListItem_name_TextView);
         item_name.setText(reminderitem.getName());
         item_name.setTextColor(Color.WHITE);
+
         TextView item_time = convertView.findViewById(R.id.reminderListItem_time_TextView);
         item_time.setText(reminderitem.getTime());
+
         TextView item_category = convertView.findViewById(R.id.reminderListItem_category_TextView);
         item_category.setText(reminderitem.getCategory());
         item_category.setTextColor(Color.WHITE);
@@ -57,25 +59,25 @@ public class ReminderItemArrayAdapter extends ArrayAdapter<ReminderItem> {
 
         //Set textcolor based on the category
         switch (reminderitem.getCategory()) {   //Drink, Eat, Medication, Shower, Social, Toilet, Alert
-            case "Drink":
+            case "drink":
                 item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.drinkWater));
                 break;
-            case "Eat":
+            case "eat":
                 item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.eat));
                 break;
-            case "Medication":
+            case "medication":
                 item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.medicine));;
                 break;
-            case "Shower":
+            case "shower":
                 item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.shower));
                 break;
-            case "Social":
+            case "social":
                 item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.meeting));
                 break;
-            case "Toilet":
+            case "toilet":
                 item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.toilet));
                 break;
-            case "Warning":
+            case "warning":
                 item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.alert));
                 break;
         }
