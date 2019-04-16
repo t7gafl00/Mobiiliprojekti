@@ -36,25 +36,28 @@
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="100dp"/>
+
             <LinearLayout
+                android:id="@+id/spinner_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:background="@color/darkBorder"
+                android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="60dp"
                     android:text="Select category: "
-                    android:textSize="24dp"
                     android:textColor="@color/colorWhite"
-                    android:paddingLeft="60dp"/>
+                    android:textSize="24dp" />
+
                 <Spinner
+                    android:id="@+id/spinner_categories"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/spinner_categories"
                     android:minHeight="30dp"
-                    android:popupBackground="@color/darkBorder"
-                ></Spinner>
+                    android:popupBackground="@color/darkBorder"></Spinner>
 
             </LinearLayout>
 

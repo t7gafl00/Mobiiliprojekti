@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -13,15 +13,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-
-import android.view.View;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.view.Window;
+import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,14 +31,11 @@ import com.example.mobiiliprojekti.model.ReminderItem;
 import com.example.mobiiliprojekti.model.ReminderItemArrayAdapter;
 import com.example.mobiiliprojekti.model.ReminderModel;
 import com.example.mobiiliprojekti.model.db.ReminderItemContract;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
-import com.google.android.gms.wearable.Node;
-import com.google.android.gms.wearable.Wearable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
+
 import kotlin.Unit;
 import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
@@ -59,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String category_from_Spinner;
     protected Handler myHandler;
 
+    private Spinner spinner;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +64,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         context = beaconController.getApplicationContext();
 
         //Require permission for beacon scanning
-
         RequirementsWizardFactory
                 .createEstimoteRequirementsWizard()
                 .fulfillRequirements(this,
@@ -97,15 +91,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         });
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        spinner = findViewById(R.id.spinner_categories);
         Spinner spinner = (Spinner)findViewById(R.id.spinner_categories);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.categories_array, R.layout.spinner_item);
-        adapter.setDropDownViewResource(R.layout.spinner_item);
+        spinner.getBackground().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
+        String[] array = {"drink", "eat", "medication", "shower", "social", "toilet", "warning"};
+        ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(array));
+        DropDownMenuAdapter adapter = new DropDownMenuAdapter(this, R.layout.spinner_item, arrayList);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
-
-
 
         //Tarvitaan
         myHandler = new Handler(new Handler.Callback() {
@@ -258,30 +251,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         category_from_Spinner = (String) parent.getItemAtPosition(position);
-        category_from_Spinner = (String) parent.getItemAtPosition(position);
 
-        //Change text's color according to category.
+
+        //The the color is changed based on category
         switch (((String) parent.getItemAtPosition(position)).toLowerCase().toString()){
             case("drink"):
-                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.drinkWater));
+                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.drinkWater));
                 break;
             case("eat"):
-                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.eat));
+                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.eat));
                 break;
             case("medication"):
-                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.medicine));
+                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.medicine));
                 break;
             case("shower"):
-                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.shower));
+                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.shower));
                 break;
             case("social"):
-                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.social));
+                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.meeting));
                 break;
             case("toilet"):
-                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.toilet));
+                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.toilet));
                 break;
             case("warning"):
-                ((TextView) parent.getChildAt(0)).setTextColor(this.getResources().getColor(R.color.alert));
+                ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.alert));
                 break;
         }
     }
