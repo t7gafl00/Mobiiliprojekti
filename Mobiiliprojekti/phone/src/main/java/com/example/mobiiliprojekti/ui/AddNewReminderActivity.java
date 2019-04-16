@@ -1,20 +1,17 @@
 package com.example.mobiiliprojekti.ui;
 
-import android.content.res.Resources;
-import android.content.res.TypedArray;
-import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -58,6 +55,7 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
 
         //Set up Spinner containing categories
         category_Spinner = findViewById(R.id.category_Spinner);
+        category_Spinner.getBackground().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
         // Create an ArrayAdapter using the string array and a default spinner layout
 
         /*ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
