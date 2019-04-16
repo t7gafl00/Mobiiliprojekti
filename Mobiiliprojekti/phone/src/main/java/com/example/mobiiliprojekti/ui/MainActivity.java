@@ -25,6 +25,7 @@ import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.Requirement;
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory;
@@ -56,9 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ReminderItem reminderItem = null;
 
     Context context;
-    private String category_from_Spinner;
     protected Handler myHandler;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,8 +104,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-
-
         //Tarvitaan
         myHandler = new Handler(new Handler.Callback() {
             @Override
@@ -140,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 reminderAlarmManager.cancelReminderNotificationAlarm((int) reminderItem.getDb_id());
 
                                 model.deleteReminderItemFromDb(reminderItem);
-                                refreshList(0);
+                                refreshList("all");
                             }
                         })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -174,11 +171,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     model.setChecked(reminderItem, 0);
                 }
-                refreshList(0);
+                refreshList("all");
                 break;
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -187,29 +183,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-    /* Handle clicks on categories icons
-    * Does nothing at the moment */
-    /*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            // Sort according to date
-            case R.id.category_1:
-                refreshList(0);
-
-                return true;
-            case R.id.category_2:
-                ReminderAlarmManager reminderAlarmManager2 = new ReminderAlarmManager(this.getApplicationContext());
-                reminderAlarmManager2.restoreAllReminderAlarms();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-*/
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -221,21 +194,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
-        refreshList(0);
+        refreshList("all");
     }
 
-    /* Refresh item list depending on what category has been selected (filter_value) */
-    private void refreshList(int filter_value) {
-
+    /* Refresh item list depending on what category has been selected (category_filter) */
+    private void refreshList(String category_filter) {
         // Clear list
         reminderItems_ArrayList.clear();
 
         // Get all items based on filter_value
-        Cursor cursor = model.getReminderItemsList(filter_value);
+        Cursor cursor = model.getReminderItemsList(category_filter);
 
         // Fetch data from items in db and add them to ArrayList
         while (cursor.moveToNext()) {
@@ -257,11 +228,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        category_from_Spinner = (String) parent.getItemAtPosition(position);
-        category_from_Spinner = (String) parent.getItemAtPosition(position);
-
         //Change text's color according to category.
-        switch (((String) parent.getItemAtPosition(position)).toLowerCase().toString()){
+        String category = ((String) parent.getItemAtPosition(position)).toLowerCase().toString();
+        Toast.makeText(context, category, Toast.LENGTH_SHORT).show();
+        switch (category){
             case("drink"):
                 ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.drinkWater));
                 break;
@@ -275,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.shower));
                 break;
             case("social"):
-                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.social));
+                ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.meeting));
                 break;
             case("toilet"):
                 ((TextView) parent.getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.toilet));
@@ -284,11 +254,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ((TextView) parent.getChildAt(0)).setTextColor(this.getResources().getColor(R.color.alert));
                 break;
         }
+        refreshList(category);
     }
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
-
 }
