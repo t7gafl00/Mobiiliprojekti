@@ -25,7 +25,7 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
     protected Handler myHandler;
     private Context context;
 
-    class NewThread extends Thread {    //Inner class for sending messages to clock
+    /*class NewThread extends Thread {    //Inner class for sending messages to clock
         private String path;    //An unique identifier for wearable to access the message
         private String message; //The message to wearable
 
@@ -63,7 +63,7 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
             msg.setData(bundle);
             myHandler.sendMessage(msg); //Pushes a message onto the end of the message queue
         }
-    }
+    }*/
 
 
 
@@ -98,7 +98,8 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
         }
 
         // 5. Send message to watch
-        new NewThread("/my_path", reminder_item.getName() + ";" + reminder_item.getCategory()).start();     //Starts a new thread to send a message to a clock
+        new SendMessageThread("/my_path",reminder_item.getName() + ";" + reminder_item.getCategory(), context).start();
+        //new NewThread("/my_path", reminder_item.getName() + ";" + reminder_item.getCategory()).start();     //Starts a new thread to send a message to a clock
     }
 }
 
