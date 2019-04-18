@@ -124,4 +124,19 @@ public class TextToSpeechManager extends Service implements TextToSpeech.OnInitL
             bound = false;
         }
     }
+
+    public void say_now(Context context, String message) {
+        // Define intent in order to start a Service containing
+        // the text-to-speech feature and notification
+        Intent textToSpeechIntent = new Intent(context, TextToSpeechManager.class)
+                .putExtra("MESSAGE", message);
+
+        // Start the service with different methods depending on the version
+        // of the device
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(textToSpeechIntent);
+        } else{
+            context.startService(textToSpeechIntent);
+        }
+    }
 }

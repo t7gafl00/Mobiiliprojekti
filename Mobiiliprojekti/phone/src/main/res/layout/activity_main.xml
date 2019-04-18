@@ -67,7 +67,6 @@
 
     </android.support.constraint.ConstraintLayout>
 
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_FloatingActionButton"
         android:layout_width="wrap_content"
@@ -81,6 +80,4 @@
         app:srcCompat="@drawable/nappula"
 
         />
-
-
 </android.support.design.widget.CoordinatorLayout>

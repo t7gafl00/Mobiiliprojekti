@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.Requirement;
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory;
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         /* Beacons */
         BeaconController beaconController = (BeaconController) getApplication();
-        Context context = beaconController.getApplicationContext();
+        final Context context = beaconController.getApplicationContext();
         //Require permission for beacon scanning
         RequirementsWizardFactory
                 .createEstimoteRequirementsWizard()
@@ -86,11 +87,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         });
 
-
         /* Brand logo toolbar */
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(null);
+        // Make toolbar clickable
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Your code here
+                Toast.makeText(context, "Toolbar title clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         /* Categories spinner */
         Spinner spinner = findViewById(R.id.spinner_categories);
