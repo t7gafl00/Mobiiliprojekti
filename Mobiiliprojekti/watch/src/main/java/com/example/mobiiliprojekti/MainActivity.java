@@ -67,16 +67,18 @@ public class MainActivity extends WearableActivity {
         myNotificationText.setAutoSizeTextTypeWithDefaults(TextView.AUTO_SIZE_TEXT_TYPE_UNIFORM);
         myNotificationText.setTypeface(Typeface.DEFAULT_BOLD);
         myNotificationText.setTextColor(ContextCompat.getColor(this, R.color.white));
-
-        textLayout = new LinearLayout(MainActivity.this);
-        textLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT));
-        myLayout.addView(textLayout, textLayout.getLayoutParams());
         myNotificationText.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT));
         myNotificationText.setGravity(Gravity.CENTER);
         myNotificationText.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+
+        textLayout = new LinearLayout(MainActivity.this);
+        textLayout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT));
         textLayout.addView(myNotificationText, myNotificationText.getLayoutParams());
+
+        myLayout.addView(textLayout, textLayout.getLayoutParams());
+
 
 
         myImage = new ImageView(MainActivity.this);
@@ -100,10 +102,11 @@ public class MainActivity extends WearableActivity {
         {
             textPlaceholder = intent.getSerializableExtra("message").toString();
             textPlaceholder = parseMessage(textPlaceholder);
+
         }
         catch(Exception e)
         {
-            textPlaceholder = "Error fetching message;Warning";
+            textPlaceholder = "Error fetching message;warning";
             textPlaceholder = parseMessage(textPlaceholder);
         }
     }
@@ -191,7 +194,6 @@ Cancelling timer, just incase
                     myLayout.removeAllViews();
                     myLayout.addView(textLayout, textLayout.getLayoutParams());
                     myNotificationText.setText(textPlaceholder);
-                    //myLayout.addView(myNotificationText);
                     setContentView(myLayout);
 
                 }
@@ -217,19 +219,19 @@ Function to send out image resource ID for fetching the right icon to use in ala
         switch(code)
         {
 
-            case "Medication":
+            case "medication":
                 imageName = "icons_colors_01";
                 break;
 
-            case "Eat":
+            case "eat":
                 imageName = "icons_colors_02";
                 break;
 
-            case "Toilet":
+            case "toilet":
                 imageName = "icons_colors_03";
                 break;
 
-            case "Shower":
+            case "shower":
                 imageName = "icons_colors_04";
                 break;
 
@@ -237,11 +239,11 @@ Function to send out image resource ID for fetching the right icon to use in ala
                 imageName = "icons_colors_05";
                 break;
 
-            case "Social":
+            case "social":
                 imageName = "icons_colors_06";
                 break;
 
-            case "Warning":
+            case "warning":
                 imageName = "icons_colors_07";
                 break;
         }
