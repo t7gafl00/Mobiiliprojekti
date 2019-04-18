@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_main);
 
         /* Beacons */
@@ -87,9 +87,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         });
 
+
         /* Brand logo toolbar */
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
 
         /* Categories spinner */
         Spinner spinner = findViewById(R.id.spinner_categories);

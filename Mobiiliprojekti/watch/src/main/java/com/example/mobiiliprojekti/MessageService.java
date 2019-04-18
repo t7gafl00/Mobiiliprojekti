@@ -9,18 +9,21 @@ import com.google.android.gms.wearable.WearableListenerService;
 
 public class MessageService extends WearableListenerService {
 
+    private static final String TAG = "WatchMessage";
+
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
 
         if (messageEvent.getPath().equals("/my_path")) {
             try{
-                //Normal way did not work so intent is created using packagemanager.
-                //Returns intent for launchable activity and in this case it is MainActivity.
-                Intent intent = this.getPackageManager().getLaunchIntentForPackage(this.getPackageName());
-                intent.putExtra("message", messageEvent.getData().toString());
+                final String message = new String(messageEvent.getData());
+                PackageManager pm = this.getPackageManager();
+                Intent intent = pm.getLaunchIntentForPackage(this.getPackageName());
+                intent.putExtra("message", message);
+                Log.d("testi", message);
                 this.startActivity(intent);
             }catch(Exception e){
-                //Process errors here. Currently this is not needed.
+                //Process error here
             }
         }
         else {

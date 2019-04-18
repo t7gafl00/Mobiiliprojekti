@@ -45,8 +45,6 @@ public class MainActivity extends WearableActivity {
     Timer timer;
     public static int repeatCounter = 0;
 
-    PowerManager powerManager;
-    PowerManager.WakeLock wakeLock;
 
 
     @Override
@@ -56,10 +54,6 @@ public class MainActivity extends WearableActivity {
         setContentView(R.layout.activity_main);
         Log.i(TAG, "onCreate");
 
-        powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-        wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                "MyApp::MyWakelockTag");
-        wakeLock.acquire();
 
 /*
  *******************************************************************
@@ -170,7 +164,6 @@ Cancelling timer, just incase
 *************************************
 */
         timer.cancel();
-        wakeLock.release();
     }
 
     @Override
@@ -240,7 +233,7 @@ Function to send out image resource ID for fetching the right icon to use in ala
                 imageName = "icons_colors_04";
                 break;
 
-            case "Drink":
+            case "drink":
                 imageName = "icons_colors_05";
                 break;
 
