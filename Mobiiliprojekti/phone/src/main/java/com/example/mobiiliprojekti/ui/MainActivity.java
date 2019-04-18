@@ -58,10 +58,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         setContentView(R.layout.activity_main);
         BeaconController beaconController = (BeaconController) getApplication();
         context = beaconController.getApplicationContext();
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
 
         //Require permission for beacon scanning
         RequirementsWizardFactory
@@ -89,8 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 return null;
                             }
                         });
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
         spinner = findViewById(R.id.spinner_categories);
 
         spinner.getBackground().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
