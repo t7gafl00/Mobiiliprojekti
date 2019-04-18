@@ -26,9 +26,10 @@ public class ReminderAlarmManager {
         this.context = context;
     }
 
+    /* This function covers all the necessary steps in order to trigger an alarm
+    ** at the time set for a reminder. */
     public void createReminderAlarm(ReminderItem reminderItem) {
         /* 1. Prepare data (id, hour, minute, message) */
-
         // Use reminderItem id from db (_id value) as our pendingIntent id
         // Each pendingIntent needs its own unique id, otherwise the last one created overwrites the previous one
         int reminder_id = (int) reminderItem.getDb_id();
@@ -40,13 +41,15 @@ public class ReminderAlarmManager {
         String reminder_minute_String = reminder_time.substring(reminder_time.indexOf(":") + 1);
         int reminder_hour = Integer.valueOf(reminder_hour_String);
         int reminder_minute = Integer.valueOf(reminder_minute_String);
+
         /* 2. Create alarm calendar object */
         Calendar alarm_Calendar = getInstance();
         alarm_Calendar.setTimeInMillis(System.currentTimeMillis());
         alarm_Calendar.set(HOUR_OF_DAY, reminder_hour);
         alarm_Calendar.set(MINUTE, reminder_minute);
 
-        // Check whether the time is earlier than current time. If so, set it to tomorrow.
+        // Check whether the time is earlier than current time.
+        // If so, set it to tomorrow.
         // Otherwise, all alarms for earlier time will fire
         Calendar now_Calendar = getInstance();
         now_Calendar.add(MINUTE, 1);
@@ -59,7 +62,8 @@ public class ReminderAlarmManager {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         // reminderItem is passed in order to recreate alarm for the next day in BroadcastReceiver
         // A bundle must be used to pass reminderItem object,
-        // as it doesn't work on the BroadcastReceiver side if we try to pass it directly to intent
+        // as it doesn't work on the BroadcastReceiver side
+        // if we try to pass it directly to intent
         // using intent.putExtra(...
         Bundle bundle = new Bundle();
         bundle.putSerializable("REMINDER_ITEM", reminderItem);
@@ -81,7 +85,7 @@ public class ReminderAlarmManager {
         Log.i("LOGIDEBUG", "createReminderAlarm: Alarm created, id: " + reminder_id);
     }
 
-
+    /* Cancel an alarm when deleting a reminder item */
     public void cancelReminderNotificationAlarm(int reminder_id) {
         Log.i("LOGIDEBUG", "cancelReminderNotificationAlarm: Alarm canceled, id:" + reminder_id);
 
@@ -91,6 +95,7 @@ public class ReminderAlarmManager {
         alarmManager.cancel(pendingIntent);
     }
 
+    /* Restore all alarms on device boot up for example */
     public void restoreAllReminderAlarms()
     {
         Log.i("LOGIDEBUG", "restoreAllReminderAlarms: ");

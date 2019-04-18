@@ -28,6 +28,7 @@ public class ReminderItemArrayAdapter extends ArrayAdapter<ReminderItem> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ReminderItem reminderitem = getItem(position);
 
+        // Set row background color
         convertView = LayoutInflater.from(getContext()).inflate(R.layout.reminder_list_item, parent, false);
         if (position % 2 == 0) {
             convertView.setBackgroundResource(R.color.darkBorder);
@@ -36,29 +37,30 @@ public class ReminderItemArrayAdapter extends ArrayAdapter<ReminderItem> {
             convertView.setBackgroundResource(R.color.lightBorder);
         }
 
+        // Set reminder name
         TextView item_name = convertView.findViewById(R.id.reminderListItem_name_TextView);
         item_name.setText(reminderitem.getName());
         item_name.setTextColor(Color.WHITE);
 
+        // Set reminder time
         TextView item_time = convertView.findViewById(R.id.reminderListItem_time_TextView);
         item_time.setText(reminderitem.getTime());
 
+        // Set reminder category name
         TextView item_category = convertView.findViewById(R.id.reminderListItem_category_TextView);
         item_category.setText(reminderitem.getCategory());
         item_category.setTextColor(Color.WHITE);
 
-        //item_category.getResources().getColor(R.color.colorWhite);
+        // Set reminder checkbox
         CheckBox item_checked = convertView.findViewById(R.id.reminderListItem_checked_CheckBox);
-
-        // Set checkboxes
         if (reminderitem.getChecked() == 1) {
             item_checked.setChecked(true);
         } else {
             item_checked.setChecked(false);
         }
 
-        //Set textcolor based on the category
-        switch (reminderitem.getCategory()) {   //Drink, Eat, Medication, Shower, Social, Toilet, Alert
+        // Set reminder time text color based on the category it belongs to
+        switch (reminderitem.getCategory()) {
             case "drink":
                 item_time.setTextColor(ContextCompat.getColor(getContext(), R.color.drinkWater));
                 break;

@@ -27,31 +27,22 @@ public class ReminderItem implements Serializable {
     public long getDb_id() {
         return db_id;
     }
-
     public void setDb_id(int db_id) {
         this.db_id = db_id;
     }
-
     public String getTime() { return time; }
-
     public void setTime(String time) { this.time = time; }
-
     public String getCategory() { return category; }
-
     public void setCategory(String category) { this.category = category; }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
     public int getChecked() {
         return checked;
     }
-
     public void setChecked(int checked) {
         this.checked = checked;
     }

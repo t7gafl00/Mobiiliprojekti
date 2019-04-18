@@ -14,18 +14,20 @@ public class OnBootBroadcastReceiver extends BroadcastReceiver {
 
     ReminderAlarmManager reminderAlarmManager = null;
 
+    /* This functions is executed on device boot up
+    ** It restores all alarms for the reminder notifications */
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
             reminderAlarmManager = new ReminderAlarmManager(context);
             reminderAlarmManager.restoreAllReminderAlarms();
-
             showNotification(context);
         }
     }
 
+    /* Display notification when alarms are restored */
     private void showNotification(Context context) {
-        // Display notification when alarms are set
+        // Set sound
         Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         // Show notification
