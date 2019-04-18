@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.mobiiliprojekti.R;
 import com.example.mobiiliprojekti.application.ReminderAlarmManager;
@@ -74,8 +75,13 @@ public class AddNewReminderActivity extends AppCompatActivity implements View.On
         int viewId = v.getId();
         /* Handle press on "DONE" button */
         if (viewId == R.id.addNewReminder_done_Button) {
-            saveReminder();
-            this.finish();
+            String name = String.valueOf(reminderName_EditText.getText());
+            if (name.equals("")) {
+                Toast.makeText(this, "Name is empty !", Toast.LENGTH_SHORT).show();
+            } else{
+                saveReminder();
+                this.finish();
+            }
         }
     }
 

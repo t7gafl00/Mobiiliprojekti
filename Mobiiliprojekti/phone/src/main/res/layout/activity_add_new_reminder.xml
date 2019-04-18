@@ -108,7 +108,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:background="@color/lightBorder"
-            android:textSize="50dp"
+            android:textSize="40dp"
             android:text="DONE"
             android:textColor="#FFFFFF"/>
     </LinearLayout>
