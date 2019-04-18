@@ -30,6 +30,8 @@ public class BeaconController extends Application implements BeaconConsumer {
     private NotificationManager notificationManager;
     private BeaconManager beaconManager;
     private Region doorRegion, toiletRegion;
+    private String message = "Go home.";
+    private String category = "Warning";
 
     @Override
     public void onCreate() {
@@ -37,7 +39,7 @@ public class BeaconController extends Application implements BeaconConsumer {
         context = getApplicationContext();
         notificationManager = (NotificationManager)this.getSystemService(NOTIFICATION_SERVICE);
 
-        //Create different regions based on the personal UUID, Major and Minor of each beacon
+        //Create different regions based on the UUID, and personal Major and Minor values of each beacon
         doorRegion = new Region("DoorRegion", Identifier.parse("B9407F30-F5F8-466E-AFF9-25556B57FE6D"), Identifier.parse("62342"),Identifier.parse("15558"));
         toiletRegion = new Region("WcRegion", Identifier.parse("B9407F30-F5F8-466E-AFF9-25556B57FE6D"), Identifier.parse("60298"),Identifier.parse("31914"));
 
@@ -106,6 +108,8 @@ public class BeaconController extends Application implements BeaconConsumer {
             public void didExitRegion(Region region) {
                 if(region.getUniqueId().equals(doorRegion.getUniqueId())) {
                     //Do arrangements when resident exits apartment
+                    //Send message to watch
+                    new SendMessageThread("/my_path",message + ";" + category, context).start();
                     Log.i("LOGIDEBUG", "didExitRegion: Door");
                 }
                 else if(region.getUniqueId().equals(toiletRegion.getUniqueId())) {

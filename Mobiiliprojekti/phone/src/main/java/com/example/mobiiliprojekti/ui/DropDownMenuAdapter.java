@@ -53,6 +53,10 @@ public class DropDownMenuAdapter extends ArrayAdapter<String> {
         textView.setText(stringCategory);
 
         switch (textView.getText().toString().toLowerCase()){
+            case("all"):
+                textView.setTextColor(ContextCompat.getColor(context, R.color.alert));
+                break;
+
             case("drink"):
                 textView.setTextColor(ContextCompat.getColor(context, R.color.drinkWater));
                 break;

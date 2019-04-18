@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.Requirement;
 import com.estimote.mustard.rx_goodness.rx_requirements_wizard.RequirementsWizardFactory;
@@ -43,30 +42,23 @@ import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
-
+    // ArrayList and ListView used to display reminders
     ArrayList<ReminderItem> reminderItems_ArrayList = new ArrayList<>();
     ListView listView = null;
 
+    // Objects for interactions with database
     ReminderModel model = null;
     ReminderItem reminderItem = null;
-
-    Context context;
-    protected Handler myHandler;
-
-    private Spinner spinner = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        /* Beacons */
         BeaconController beaconController = (BeaconController) getApplication();
-        context = beaconController.getApplicationContext();
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(null);
-
+        final Context context = beaconController.getApplicationContext();
         //Require permission for beacon scanning
         RequirementsWizardFactory
                 .createEstimoteRequirementsWizard()
@@ -94,20 +86,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             }
                         });
 
-        spinner = findViewById(R.id.spinner_categories);
+        /* Brand logo toolbar */
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(null);
+        // Make toolbar clickable
+        toolbar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Your code here
+                Toast.makeText(context, "Toolbar title clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
 
+        /* Categories spinner */
+        Spinner spinner = findViewById(R.id.spinner_categories);
         spinner.getBackground().setColorFilter(getResources().getColor(R.color.colorWhite), PorterDuff.Mode.SRC_ATOP);
-
         Resources resources = getResources();
         String[] array = resources.getStringArray(R.array.filter_categories_array);
-
         ArrayList<String> arrayList = new ArrayList<>(Arrays.asList(array));
         DropDownMenuAdapter adapter = new DropDownMenuAdapter(this, R.layout.spinner_item, arrayList);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-        //Tarvitaan
-        myHandler = new Handler(new Handler.Callback() {
+        /* Required by watch */
+        Handler myHandler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
                 Bundle stuff = msg.getData();
@@ -116,11 +119,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-
+        /* Reminders list */
         model = new ReminderModel((this));
         listView = findViewById(R.id.main_list_view);
         findViewById(R.id.add_FloatingActionButton).setOnClickListener(this);
-
         // Long click on item in ListView to remove it
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -152,21 +154,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return false;
             }
         });
-
     }
 
+    /* This function handles clicks on checkboxes,
+    ** saving their status in database */
     public void onCheckboxClicked(View view) {
         boolean checked = ((CheckBox) view).isChecked();
-
         switch (view.getId()) {
-
             case R.id.reminderListItem_checked_CheckBox:
                 // Get reminder item whose checkbox was pressed on
                 View parentRow = (View) view.getParent();
                 ListView listView = (ListView) parentRow.getParent();
                 final int position = listView.getPositionForView(parentRow);
                 reminderItem = (ReminderItem) listView.getItemAtPosition(position);
-
                 // Set checkbox value
                 if (checked) {
                     model.setChecked(reminderItem, 1);
@@ -202,22 +202,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         refreshList("all");
     }
 
-    /* Refresh item list depending on what category has been selected (category_filter) */
+    /* Refresh reminders list depending on what category has been selected */
     private void refreshList(String category_filter) {
         // Clear list
         reminderItems_ArrayList.clear();
-
         // Get all items based on filter_value
         Cursor cursor = model.getReminderItemsList(category_filter);
-
         // Fetch data from items in db and add them to ArrayList
         while (cursor.moveToNext()) {
+            // Fetch data from database
             int id = (int) cursor.getLong(cursor.getColumnIndex("_id"));
             String time = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_TIME)));
             String category = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_CATEGORY)));
             String name = (cursor.getString(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_NAME)));
             int checked = cursor.getInt(cursor.getColumnIndexOrThrow(ReminderItemContract.ReminderItem.COLUMN_NAME_CHECKED));
-
+            // Create object using data and insert it into ArrayList
             ReminderItem reminderItem = new ReminderItem(id, time, name, category, checked);
             reminderItems_ArrayList.add(reminderItem);
         }
@@ -228,31 +227,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         listView.setAdapter(adapter);
     }
 
+    /* This functions set the color of the category selected in category spinner */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        //Change text's color according to category.
         String category = ((String) parent.getItemAtPosition(position)).toLowerCase().toString();
-        Toast.makeText(context, category, Toast.LENGTH_SHORT).show();
-        switch (category){
-            case("drink"):
+        switch (category) {
+            case ("drink"):
                 ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.drinkWater));
                 break;
-            case("eat"):
+            case ("eat"):
                 ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.eat));
                 break;
-            case("medication"):
+            case ("medication"):
                 ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.medicine));
                 break;
-            case("shower"):
+            case ("shower"):
                 ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.shower));
                 break;
-            case("social"):
+            case ("social"):
                 ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.meeting));
                 break;
-            case("toilet"):
+            case ("toilet"):
                 ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.toilet));
                 break;
-            case("warning"):
+            case ("warning"):
                 ((TextView) ((LinearLayout) parent.getChildAt(0)).getChildAt(0)).setTextColor(ContextCompat.getColor(this, R.color.alert));
                 break;
         }

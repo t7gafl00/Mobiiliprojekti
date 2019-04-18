@@ -87,7 +87,8 @@
         android:textColorHint="#FFFFFF"
         android:textColor="#FFFFFF"
         android:textSize="16dp"
-        android:padding="8dp"/>
+        android:padding="8dp"
+        android:maxLength="21"/>
 
     <Space
         android:layout_width="match_parent"
