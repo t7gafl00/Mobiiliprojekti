@@ -20,7 +20,7 @@
         android:background="@color/darkBorder"
         >
         <LinearLayout
-            android:id="@+id/ylempi"
+            android:id="@+id/upper_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
@@ -30,7 +30,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="@+id/ylempi"
+            app:layout_constraintBottom_toBottomOf="@+id/upper_layout"
             android:orientation="vertical"
             >
             <Space
@@ -47,8 +47,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="60dp"
-                    android:text="Select category: "
+                    android:paddingLeft="10dp"
+                    android:text="Show category: "
                     android:textColor="@color/colorWhite"
                     android:textSize="24dp" />
 
@@ -74,8 +74,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@drawable/icon_plus_bigger"
-            app:backgroundTint="@color/lightBorder"/>
+            app:srcCompat="@drawable/icon_plus"
+            app:backgroundTint="@color/lightBorder"
+            android:scaleType="center"
+            android:tint="@color/colorWhite"
+
+
+            />
 
 
 </android.support.design.widget.CoordinatorLayout>
