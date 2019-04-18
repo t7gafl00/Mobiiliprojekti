@@ -96,7 +96,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onClick(View v) {
                 // Your code here
-                Toast.makeText(context, "Toolbar title clicked", Toast.LENGTH_SHORT).show();
+                Intent testIntent = new Intent(MainActivity.this, MyTestMessageActivity.class);
+                startActivity(testIntent);
             }
         });
 
