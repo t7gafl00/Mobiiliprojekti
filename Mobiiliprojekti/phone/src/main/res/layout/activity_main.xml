@@ -68,19 +68,19 @@
     </android.support.constraint.ConstraintLayout>
 
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/add_FloatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@drawable/icon_plus"
-            app:backgroundTint="@color/lightBorder"
-            android:scaleType="center"
-            android:tint="@color/colorWhite"
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
 
+        app:backgroundTint="@color/lightBorder"
+        app:fabSize="normal"
 
-            />
+        app:srcCompat="@drawable/nappula"
+
+        />
 
 
 </android.support.design.widget.CoordinatorLayout>
