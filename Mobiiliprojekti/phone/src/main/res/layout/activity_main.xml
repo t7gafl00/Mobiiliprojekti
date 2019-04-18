@@ -74,8 +74,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@drawable/icon_plus_bigger"
-            app:backgroundTint="@color/lightBorder"/>
+            app:srcCompat="@drawable/icon_plus"
+            app:backgroundTint="@color/lightBorder"
+            android:scaleType="center"
+            android:tint="@color/colorWhite"
+            
+
+            />
 
 
 </android.support.design.widget.CoordinatorLayout>
