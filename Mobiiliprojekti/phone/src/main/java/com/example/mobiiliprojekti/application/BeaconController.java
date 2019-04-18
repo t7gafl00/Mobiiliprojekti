@@ -31,7 +31,7 @@ public class BeaconController extends Application implements BeaconConsumer {
     private BeaconManager beaconManager;
     private Region doorRegion, toiletRegion;
     private String message = "Go home.";
-    private String category = "Warning";
+    private String category = "home";
 
     @Override
     public void onCreate() {
@@ -110,6 +110,8 @@ public class BeaconController extends Application implements BeaconConsumer {
                     //Do arrangements when resident exits apartment
                     //Send message to watch
                     new SendMessageThread("/my_path",message + ";" + category, context).start();
+                    TextToSpeechManager tts = new TextToSpeechManager();
+                    tts.say_now(context, message);
                     Log.i("LOGIDEBUG", "didExitRegion: Door");
                 }
                 else if(region.getUniqueId().equals(toiletRegion.getUniqueId())) {

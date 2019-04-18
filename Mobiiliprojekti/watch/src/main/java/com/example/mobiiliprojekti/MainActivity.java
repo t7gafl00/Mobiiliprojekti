@@ -1,21 +1,20 @@
 package com.example.mobiiliprojekti;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.PowerManager;
-import android.support.v4.content.ContextCompat;
-import android.support.wearable.activity.WearableActivity;
-import android.view.Gravity;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.support.v4.content.ContextCompat;
 import android.support.wear.widget.BoxInsetLayout;
+import android.support.wearable.activity.WearableActivity;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -218,7 +217,6 @@ Function to send out image resource ID for fetching the right icon to use in ala
         String imageName = "";
         switch(code)
         {
-
             case "medication":
                 imageName = "icons_colors_01";
                 break;
@@ -245,6 +243,9 @@ Function to send out image resource ID for fetching the right icon to use in ala
 
             case "warning":
                 imageName = "icons_colors_07";
+                break;
+            case "home":
+                imageName = "icons_colors_08";
                 break;
         }
 
