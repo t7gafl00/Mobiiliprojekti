@@ -13,11 +13,11 @@ import android.os.Message;
 
 import java.util.List;
 
-public class SendMessageThread extends Thread {    //Inner class for sending messages to clock
+public class SendMessageThread extends Thread {    //Class for sending messages to clock
     private String path;                           //An unique identifier for wearable to access the message
     private String message;                        //The message to wearable
     private Context context;
-    protected Handler myHandler;
+    protected Handler handler;
 
     public SendMessageThread(String mPath, String mMessage, Context context) {
         path = mPath;
@@ -28,9 +28,9 @@ public class SendMessageThread extends Thread {    //Inner class for sending mes
     public void sendmessage(String messageText) {   //Function that is called inside the run-function in NewThread class
         Bundle bundle = new Bundle();
         bundle.putString("messageText", messageText);
-        Message msg = myHandler.obtainMessage(); //Returns a new message from  the global message pool
+        Message msg = handler.obtainMessage(); //Returns a new message from  the global message pool
         msg.setData(bundle);
-        myHandler.sendMessage(msg); //Pushes a message onto the end of the message queue
+        handler.sendMessage(msg); //Pushes a message onto the end of the message queue
     }
 
     public void run() {
@@ -44,7 +44,6 @@ public class SendMessageThread extends Thread {    //Inner class for sending mes
                         Wearable.getMessageClient(context).sendMessage(node.getId(), path, message.getBytes());
                 try {
                     Integer result = Tasks.await(sendMessageTask);
-
                     sendmessage(message);
 
                 } catch (Exception exception) {
