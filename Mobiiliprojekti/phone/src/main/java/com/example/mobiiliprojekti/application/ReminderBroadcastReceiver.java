@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import com.example.mobiiliprojekti.model.ReminderItem;
 
@@ -28,6 +29,8 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
         ReminderAlarmManager alarmManager = new ReminderAlarmManager(context);
         alarmManager.createReminderAlarm(reminder_item);
 
+        /* Reimplemented in TextToSpechManager
+
         // 3. Define intent in order to start a Service containing
         // the text-to-speech feature and notification
         Intent textToSpeechIntent = new Intent(context, TextToSpeechManager.class)
@@ -41,6 +44,10 @@ public class ReminderBroadcastReceiver extends BroadcastReceiver {
         } else{
             context.startService(textToSpeechIntent);
         }
+
+        */
+        TextToSpeechManager tts = new TextToSpeechManager();
+        tts.say_now(context, reminder_item.getName());
 
         // 5. Send message to watch
         new SendMessageThread("/my_path",reminder_item.getName() + ";" + reminder_item.getCategory(), context).start(); //Starts a new thread to send a message to a clock
