@@ -14,8 +14,8 @@
     <application
         android:name=".application.BeaconController"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label=""
+        android:icon="@drawable/m_logo"
+        android:label="Memini"
         tools:replace="android:label"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -24,7 +24,7 @@
         <activity android:name=".ui.AddNewReminderActivity" />
         <activity
             android:name=".ui.MainActivity"
-            android:label=""
+            android:label="Memini"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

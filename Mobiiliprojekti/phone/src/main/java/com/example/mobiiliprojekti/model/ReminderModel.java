@@ -48,13 +48,10 @@ public class ReminderModel {
         int deletedRows = db.delete(ReminderItemContract.ReminderItem.TABLE_NAME, selection, selectionArgs);
     }
 
-    /* Get items from db based on a filter value and order them by time of day
-     *  The filter value could be used to display items based on what category they belong to */
+    /* Get items from db based on their category and order them by time of day */
     public Cursor getReminderItemsList(String category) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
-
         Cursor cursor = null;
-
         if (category.equals("all")) {
             cursor = db.rawQuery(
                     "SELECT _id, time, category, name, checked FROM reminderItems ORDER BY strftime('%HH:%MM', time) ASC", new String[0]);
@@ -63,10 +60,9 @@ public class ReminderModel {
                     "SELECT _id, time, category, name, checked FROM reminderItems WHERE category = ? ORDER BY strftime('%HH:%MM', time) ASC",
                     new String[]{category});
         }
-        /*
-        String dump = DatabaseUtils.dumpCursorToString(cursor);
-        Log.i("LOGIDEBUG", "getId: dumpCursorToString: " + dump);
-        */
+        // For debugging
+        //String dump = DatabaseUtils.dumpCursorToString(cursor);
+        //Log.i("LOGIDEBUG", "getId: dumpCursorToString: " + dump);
         return cursor;
     }
 
