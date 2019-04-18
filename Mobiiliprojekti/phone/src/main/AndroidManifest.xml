@@ -4,23 +4,23 @@
     package="com.example.mobiiliprojekti">
 
     <!-- wake up device when sleeping -->
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <!-- permission to set up all alarms on device boot -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" /> <!-- permission to set up all alarms on device boot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".application.BeaconController"
         android:allowBackup="true"
         android:icon="@drawable/m_logo"
         android:label="Memini"
-        tools:replace="android:label"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="android:label">
 
+        <activity android:name=".ui.MyTestMessageActivity" />
         <activity android:name=".ui.AddNewReminderActivity" />
         <activity
             android:name=".ui.MainActivity"
@@ -33,19 +33,23 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".application.ReminderBroadcastReceiver" />
-
+        <receiver android:name=".application.ReminderBroadcastReceiver"/>
+        <receiver android:name=".application.MyTestMessageReceiver"/>
         <receiver android:name=".application.OnBootBroadcastReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <!-- <category android:name="android.intent.category.HOME" /> -->
             </intent-filter>
         </receiver>
-        <service android:name=".application.TextToSpeechManager"/>
-        <service android:name="org.altbeacon.beacon.service.BeaconService"
+
+        <service android:name=".application.TextToSpeechManager" />
+        <service
+            android:name="org.altbeacon.beacon.service.BeaconService"
             tools:node="replace">
-            <meta-data android:name="longScanForcingEnabled" android:value="true"/>
+            <meta-data
+                android:name="longScanForcingEnabled"
+                android:value="true" />
         </service>
     </application>
 
-    </manifest>
+</manifest>
