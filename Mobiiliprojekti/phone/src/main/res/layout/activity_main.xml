@@ -20,7 +20,7 @@
         android:background="@color/darkBorder"
         >
         <LinearLayout
-            android:id="@+id/ylempi"
+            android:id="@+id/upper_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
@@ -30,7 +30,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="@+id/ylempi"
+            app:layout_constraintBottom_toBottomOf="@+id/upper_layout"
             android:orientation="vertical"
             >
             <Space
