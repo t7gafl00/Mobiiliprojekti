@@ -25,8 +25,7 @@ public class TextToSpeechManager extends Service implements TextToSpeech.OnInitL
     private boolean attemptingToBind = false;
     private boolean bound = false;
     Notification notification;
-
-
+    
     @Override
     public void onCreate() {
         super.onCreate();
@@ -70,8 +69,6 @@ public class TextToSpeechManager extends Service implements TextToSpeech.OnInitL
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-
         spokenText = Objects.requireNonNull(intent.getExtras()).getString("MESSAGE");
         bindToService();
         textToSpeech = new TextToSpeech(this, this);
@@ -113,7 +110,8 @@ public class TextToSpeechManager extends Service implements TextToSpeech.OnInitL
     public void bindToService() {
         if(!attemptingToBind) {
             attemptingToBind = true;
-            context.bindService(new Intent(context, TextToSpeechManager.class), this, Context.BIND_AUTO_CREATE);
+            context.bindService(new Intent(context, TextToSpeechManager.class),
+                    this, Context.BIND_AUTO_CREATE);
         }
     }
 
