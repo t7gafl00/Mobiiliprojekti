@@ -47,8 +47,8 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="60dp"
-                    android:text="Select category: "
+                    android:paddingLeft="10dp"
+                    android:text="Show category: "
                     android:textColor="@color/colorWhite"
                     android:textSize="24dp" />
 
@@ -78,7 +78,7 @@
             app:backgroundTint="@color/lightBorder"
             android:scaleType="center"
             android:tint="@color/colorWhite"
-            
+
 
             />
 
