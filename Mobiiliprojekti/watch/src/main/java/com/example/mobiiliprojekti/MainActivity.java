@@ -19,6 +19,7 @@ import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
 public class MainActivity extends WearableActivity {
 
     private static final String TAG = "MyWatchApp";
@@ -60,6 +61,8 @@ public class MainActivity extends WearableActivity {
  *******************************************************************
  */
 
+
+
         myLayout = findViewById(R.id.boxInsetLayout);
         myLayout.setVisibility(View.VISIBLE);
         myNotificationText = new TextView(MainActivity.this);
@@ -79,9 +82,7 @@ public class MainActivity extends WearableActivity {
         myLayout.addView(textLayout, textLayout.getLayoutParams());
 
 
-
         myImage = new ImageView(MainActivity.this);
-
         myVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         // Enables Always-on
